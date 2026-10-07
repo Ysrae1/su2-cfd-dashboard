@@ -220,6 +220,7 @@
   rule(/^([\d,]+) 段$/, (_,n)=>`${n} segments`);
   rule(/^门槛 (.+)$/, (_,n)=>`Threshold ${n}`);
   rule(/^共同色标 (.+)$/, (_,n)=>`Shared Range ${translate(n)}`);
+  rule(/^(.+?) 共同色标(?:，(.+))?$/, (_,f,unit)=>`${field(f)} shared color scale${unit?`, ${known(unit)}`:''}`);
   rule(/^(.+?) 共同色标(?: · (.+?))? (.+?)–(.+)$/, (_,f,unit,min,max)=>`${field(f)} Shared Range${unit?` · ${known(unit)}`:''} ${min}–${max}`);
   rule(/^(.+?) 色标(下限|上限)(滑块|数值)$/, (_,f,side,type)=>`${field(f)} color ${side==='下限'?'minimum':'maximum'} ${type==='滑块'?'slider':'value'}`);
   rule(/^(.+?) 色标$/, (_,f)=>`${field(f)} color scale`);
