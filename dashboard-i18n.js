@@ -18,7 +18,7 @@
     '改设置续算':'Adjust & Continue', '重新计算':'Restart', '续算':'Continue',
     '新建分支 · 直接续算':'New Branch', '新建分支 · 改设置续算':'Adjust & Branch',
     '从此节点新建分支':'New Branch', '创建并开始分支':'Start Branch',
-    '按新设置续算':'Continue with Changes', '取消':'Cancel',
+    '按新设置续算':'Continue with Changes', '取消':'Cancel', '收起菜单':'Close Menu',
     'CFL 上限':'CFL Limit', '计算格式':'Discretization', '流动重构阶数':'Flow Reconstruction',
     '空间离散':'Spatial Discretization', '流动更新松弛系数':'Flow Relaxation',
     '一阶诊断':'First Order', '一阶':'First Order',
