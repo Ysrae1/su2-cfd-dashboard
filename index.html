@@ -100,6 +100,11 @@ button:is([aria-pressed=true],[aria-current=true]):not(.timeline-node):not(.time
 .calculation-timeline[data-mode=dock] .timeline-node,.calculation-timeline[data-mode=tree] .timeline-node{transform-origin:center center}
 .calculation-timeline[data-mode=tree] .timeline-step:has(.timeline-node[aria-current=true])::before{content:"";position:absolute;left:calc(50% - 2px);bottom:-5px;width:4px;height:4px;border-radius:50%;background:var(--blue)}
 .timeline-node-icon.timeline-node-icon-small{width:16px;height:16px}
+.title-row{display:grid;grid-template-columns:auto minmax(0,1fr) 36px}
+.github-link{grid-column:3;grid-row:1;display:grid;place-items:center;width:36px;height:36px;border-radius:var(--apple-control-radius);color:var(--muted);text-decoration:none;transition:color 140ms var(--motion-out),background-color 140ms var(--motion-out)}
+.github-link svg{width:22px;height:22px;fill:currentColor}.github-link:hover{color:var(--fg);background:color-mix(in srgb,var(--panel) 65%,transparent)}.github-link:focus-visible{outline:2px solid var(--blue);outline-offset:3px}
+@media(max-width:640px){.title-row{grid-template-columns:minmax(0,1fr) 36px;gap:6px 12px}.title-row>#nativeStopState{grid-column:1/-1;grid-row:2}.github-link{grid-column:2}}
+@media(prefers-reduced-motion:reduce){.github-link{transition:none}}
 .calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node{transform:translateY(var(--dock-lift,0px))}
 .calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node-icon{transform:scale(var(--dock-scale,1));transform-origin:center}
 .calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node:focus-visible{transform:translateY(-3px)}
@@ -121,7 +126,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
 </style>
 <script src="./continuous-corners.js?v=20261008-single-surface-4" defer></script>
 <script src="./rolling-ranges.js"></script>
-<script src="./dashboard-i18n.js?v=20261008-5" defer></script>
+<script src="./dashboard-i18n.js?v=20261008-6" defer></script>
 <style>
 .continuation-settings,.runtime-settings{display:none!important}.dashboard-layout:has(.showcase-banner:not([hidden])){padding-top:0}.showcase-banner{position:relative;isolation:isolate;margin:0 0 18px;padding:12px 44px 12px 16px;border-radius:var(--apple-panel-radius);background:var(--surface-material);color:var(--muted);box-shadow:none;filter:drop-shadow(0 3px 7.5px var(--floating-shadow-color))}.showcase-banner[hidden]{display:none!important}.showcase-banner>.showcase-dismiss{position:absolute!important;top:8px;right:8px;width:24px;height:24px;padding:0;display:grid;place-items:center;border:0;border-radius:6px;background:none!important;background-image:none!important;color:var(--muted);box-shadow:none!important;filter:none!important;cursor:pointer}.showcase-dismiss::before{content:none!important}.showcase-dismiss:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.showcase-dismiss:hover{color:var(--fg)}</style>
 </head>
@@ -132,7 +137,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   <p class="showcase-banner small" role="note"><button class="showcase-dismiss" type="button" aria-label="关闭只读提示" title="关闭只读提示"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>只读展示快照 · 导出于 <time datetime="2026-10-07T19:41:17.751359+00:00">2026-10-07T19:41:17.751359+00:00</time> · 真实保存数据；运行状态与验收结论截至导出时刻。<br>本页为静态结果快照，未连接求解器；计算控制、保护、新建分支及归档不可用。节点浏览、隐藏显示和流场交互仍可用。</p>
   <section id="calculationTimeline" class="calculation-timeline" aria-label="所选计算任务的历程" hidden><div class="timeline-heading"><h3>计算历程</h3><span id="timelineSummary" class="small muted"></span></div><div class="timeline-floating"><button id="timelineToggle" class="timeline-toggle" type="button" aria-label="收起计算历程" aria-expanded="true" aria-controls="timelineNodes"><svg viewBox="0 0 14 14" aria-hidden="true"><path id="timelineToggleIcon" d="M9 3 5 7l4 4"/></svg></button><button id="languageToggle" class="timeline-toggle language-toggle" type="button" aria-label="Switch to English" title="Switch to English">EN</button><div id="timelineNodes" class="timeline-nodes" role="list" aria-label="计算段节点"></div><button id="timelineBranchToggle" class="timeline-branch-toggle" type="button" aria-label="展开计算分支" title="展开计算分支" aria-expanded="false" aria-controls="timelineNodes"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="m3 5 4 4 4-4"/></svg></button></div></section>
   <header>
-    <div class="header-content"><div class="title-row"><h1>SF 试算 · 展示快照</h1><span id="nativeStopState" class="small muted" aria-live="polite">原生自动停止：读取中</span></div>
+    <div class="header-content"><div class="title-row"><h1>SF 试算 · 展示快照</h1><span id="nativeStopState" class="small muted" aria-live="polite">原生自动停止：读取中</span><a class="github-link" href="https://github.com/Ysrae1/aero-topology-dashboard" target="_blank" rel="noopener noreferrer" aria-label="查看 GitHub 仓库" title="查看 GitHub 仓库"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.468-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.652.243 2.873.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.608-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.596 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></div>
       <div id="statusPanel" class="status-panel" data-state="loading"><div id="status" class="status" role="status" aria-live="polite">正在连接…</div><div id="updated" class="small muted">读取保存快照</div><div id="connection" class="small" aria-live="polite"></div></div>
       <div class="calculation-controls" role="group" aria-label="计算控制"><button id="controlStart" type="button" data-action="start" disabled>开始</button><button id="controlPause" type="button" data-action="pause" disabled>暂停</button><button id="controlResume" type="button" data-action="resume" disabled>恢复</button><button id="controlContinue" type="button" data-action="continue" disabled>直接续算</button><button id="controlReconfigure" type="button" disabled>改设置续算</button><button id="controlRestart" type="button" data-action="restart" disabled>重新计算</button></div>
       <div id="controlMessage" class="control-message small muted" role="status"></div><form id="continuationSettings" class="continuation-settings" hidden><p id="branchSourceNote" class="branch-source-note small muted" hidden></p><label for="continuationCfl">CFL 上限<input id="continuationCfl" type="number" min="0.1" max="500" step="any" value="10" required></label><label for="continuationOrder">计算格式<select id="continuationOrder"><option value="true">一阶诊断</option><option value="false">二阶</option></select></label><label for="continuationNativeStop">原生自动停止<select id="continuationNativeStop"><option value="true">开启：满足原生判据自动停止</option><option value="false">关闭：不按原生判据停止</option></select></label><button id="continuationSubmit" type="submit">按新设置续算</button><button id="continuationCancel" type="button">取消</button><span class="small muted">提交后开始计算；时间、迭代上限与独立验收仍生效。</span></form><p id="runDetails" class="subtitle muted">正在读取诊断算例与控制参数…</p></div>
@@ -254,12 +259,12 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   });
   let data = null, busy = false, controlBusy=false, controlError=null;
   const plotWindows={iteration:{scope:'recent',count:1250},stability:{scope:'recent',count:1250}};
-  let timelineCollapsed=false,timelineTreeExpanded=false,branchSourceRun=null,continuationSourceAction='branch',dockPointerX=null,dockPointerY=null,dockFrame=0,dockLastTime=0,dockTargetsDirty=false,timelineExpansionMotion=null;
+  let timelineCollapsed=true,timelineTreeExpanded=false,branchSourceRun=null,continuationSourceAction='branch',dockPointerX=null,dockPointerY=null,dockFrame=0,dockLastTime=0,dockTargetsDirty=false,timelineExpansionMotion=null;
   const dockStates=new Map(),hiddenStages=new Set();
   const protectedStage='feas_sf_def_changed_first_order_cont_20261007T161837029606Z';
   let stageMenuRun=null,stageMenuTrigger=null;
   try{const saved=JSON.parse(localStorage.getItem('sf-showcase-dashboard-hidden-stages')||'[]');if(Array.isArray(saved))for(const run of saved)if(typeof run==='string')hiddenStages.add(run);}catch(error){}
-  try{timelineCollapsed=localStorage.getItem('sf-showcase-dashboard-timeline-collapsed')==='true';timelineTreeExpanded=localStorage.getItem('sf-showcase-dashboard-timeline-tree')==='true';}catch(error){}
+  try{timelineTreeExpanded=localStorage.getItem('sf-showcase-dashboard-timeline-tree')==='true';}catch(error){}
   let selectedTask=new URL(window.location.href).searchParams.get('run')||window.DASHBOARD_SHOWCASE.default_run,taskListKey='',timelineKey='',pollSerial=0,progressAbort=null;
   const timelineDisplayState={taskId:null,anchorRun:null};
   let runtimeDirty=false;
@@ -985,7 +990,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     $('timelineToggle').setAttribute('aria-expanded',String(!timelineCollapsed));$('timelineToggle').setAttribute('aria-label',timelineCollapsed?'展开计算历程':'收起计算历程');$('timelineToggleIcon').setAttribute('d',timelineCollapsed?'M5 3 9 7l-4 4':'M9 3 5 7l4 4');
     if(timelineCollapsed){stopTimelineExpansion();hideTimelineTooltip();resetDockMagnification(true);}
   }
-  $('timelineToggle').addEventListener('click',()=>{timelineCollapsed=!timelineCollapsed;updateTimelineCollapse();try{localStorage.setItem('sf-showcase-dashboard-timeline-collapsed',String(timelineCollapsed));}catch(error){}});
+  $('timelineToggle').addEventListener('click',()=>{timelineCollapsed=!timelineCollapsed;updateTimelineCollapse();});
   $('timelineNodes').addEventListener('pointermove',event=>{
     if(reducedMotion.matches||timelineCollapsed||!['dock','tree'].includes($('calculationTimeline').dataset.mode)||event.pointerType==='touch')return;
     dockPointerX=event.clientX;dockPointerY=event.clientY;dockTargetsDirty=true;scheduleDockFrame();

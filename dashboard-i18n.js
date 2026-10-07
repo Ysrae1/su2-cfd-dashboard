@@ -5,6 +5,7 @@
   const han = /[\u3400-\u9fff]/;
   const exact = new Map(Object.entries({
     'SF 实时迭代':'SF Live Iteration',
+    '查看 GitHub 仓库':'View on GitHub',
     'SF 试算 · 实时迭代':'SF Pilot · Live Iteration',
     'SF 试算 · 展示快照':'SF Pilot · Saved Snapshot',
     'SF 试算 · 只读展示快照':'SF Pilot · Read-only Snapshot',
