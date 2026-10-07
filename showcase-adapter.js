@@ -38,11 +38,11 @@
       'continuationNativeStop','continuationSubmit','runtimeTimeout','runtimeSave',
       'runtimeApply','stabilityStopToggle','stageBranch','stageProtect','stageDelete']) {
       const control = document.getElementById(id);
-      if (control) { control.disabled = true; control.title = '只读快照'; }
+      if (control) { control.disabled = true; control.title = '只读展示中不可用'; }
     }
     const message = document.getElementById('controlMessage');
-    if (message) message.textContent = '只读保存快照 · 节点切换、曲线窗口和流场交互可用';
+    if (message) message.textContent = '只读展示 · 计算控制不可用';
     const note = document.getElementById('stageContextNote');
-    if (note) note.textContent = '仅隐藏或恢复本浏览器的绘图显示；来源和保护记录固定。';
+    if (note) note.textContent = '只读展示 · 节点修改不可用；隐藏或恢复只影响本浏览器。';
   };
 })();
