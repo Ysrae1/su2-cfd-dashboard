@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<script src="./showcase-adapter.js?v=202610072034300383610000"></script>
+<script src="./showcase-adapter.js?v=e306c4c480be8b8c"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SF 试算 · 只读展示快照</title>
 <!-- KaTeX 0.19.0 (MIT), pinned local distribution from https://registry.npmjs.org/katex/0.19.0; https://katex.org/docs/browser.html -->
@@ -66,6 +66,7 @@ input.continuous-surface{box-shadow:none!important}
 .styled-select{position:relative;display:inline-flex;max-width:100%;vertical-align:middle}.styled-select[data-open=true]{z-index:55}.styled-select[data-open=true]>.styled-select-trigger{visibility:hidden}.styled-select>select[hidden]{display:none}.styled-select-trigger{display:inline-flex;align-items:center;justify-content:space-between;gap:18px;min-width:160px;max-width:100%;text-align:left;font:inherit;padding:6px 11px;white-space:normal}.styled-select-trigger>svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transition:transform 150ms var(--motion-out)}.styled-select-trigger[aria-expanded=true]>svg{transform:rotate(180deg)}.flow-heading .styled-select-trigger{font-size:18px;font-weight:500;line-height:1.4}.select-menu{position:absolute;top:0;left:0;pointer-events:auto;min-width:0;padding:7px;border-radius:var(--apple-container-radius);max-height:min(360px,calc(100dvh - 24px));overflow:auto}.select-menu[hidden]{display:none}.select-menu-heading{display:flex;align-items:center;justify-content:space-between;gap:18px;margin:-7px -7px 4px;padding:6px 11px;cursor:pointer;font-size:var(--select-font,15px);font-weight:var(--select-weight,400);line-height:var(--select-line,1.4)}.select-menu-heading>svg{width:13px;height:13px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round;transform:rotate(180deg)}.select-menu-option{display:flex;align-items:center;justify-content:space-between;gap:8px;width:100%;padding:8px 10px;margin:2px 0;text-align:left;font-size:var(--select-font,15px);line-height:1.45;overflow-wrap:normal;word-break:normal;border:0;filter:none!important}.select-menu-option[aria-selected=false]{background-image:none!important}.select-menu-option[aria-selected=false]:hover{color:var(--blue)}.select-menu-option[aria-selected=true]{color:#fff}.select-menu-option>svg{width:14px;height:14px;flex:none;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.select-menu-option[aria-selected=false]>svg{visibility:hidden}@media(prefers-reduced-motion:reduce){.styled-select-trigger>svg{transition:none}}
 .flow-viewport,.flow-canvas,.flow-image{border-radius:var(--apple-panel-radius)}.continuous-canvas{border:0!important;background:transparent!important;border-radius:0!important;corner-shape:round!important}.continuous-canvas{filter:none!important;box-shadow:none!important}
 .flow{position:relative}.continuous-flow-outline{position:absolute;z-index:1;pointer-events:none;overflow:visible}.continuous-flow-outline[hidden]{display:none}
+.flow-canvas{touch-action:auto}.flow-canvas[data-touch-zoom=true]{touch-action:none}.flow-tool-actions{display:flex;flex-wrap:wrap;align-items:center;gap:8px;flex:none}.flow-tool-actions button{white-space:nowrap}@media(max-width:640px){.flow-tools>span{flex-basis:100%}}
 .dashboard-layout{display:block;max-width:1260px;margin:auto;padding:28px 24px 48px}.dashboard-layout main{margin:0;padding:0;max-width:none;min-width:0}.drawer-shell{position:fixed;top:0;bottom:0;left:0;width:min(300px,calc(100vw - 36px));height:100dvh;z-index:25;transform:translateX(-100%);transition:transform 260ms var(--motion-drawer)}.drawer-shell[data-open=true]{transform:translateX(0);transition-duration:360ms}.drawer-outline{position:absolute;right:-36px;top:0;width:48px;height:100%;z-index:4;overflow:visible;pointer-events:none;filter:none}.drawer-outline>path:last-child{fill:none;stroke:var(--drawer-outline);stroke-width:1}.drawer-shell:has(.drawer-toggle:focus-visible) .drawer-outline>path:last-child{stroke:var(--blue);stroke-width:2}.drawer-toggle:focus-visible{outline:none}.drawer-toggle{position:absolute;top:50%;right:-36px;transform:translateY(-50%);z-index:3;display:grid;place-items:center;width:48px;height:112px;padding:12px 6px 12px 16px;writing-mode:vertical-rl;text-orientation:upright;letter-spacing:3px;line-height:1;font-size:13px;border-radius:var(--apple-container-radius);background:var(--drawer-material);border-color:transparent;color:var(--fg);backdrop-filter:blur(20px) saturate(145%);-webkit-backdrop-filter:blur(20px) saturate(145%);filter:none}.drawer-edge{position:absolute;top:0;bottom:0;right:-5px;width:5px;z-index:2;background:var(--drawer-material);box-shadow:none;backdrop-filter:blur(20px) saturate(145%);-webkit-backdrop-filter:blur(20px) saturate(145%)}.task-sidebar{position:absolute;inset:0;width:100%;height:100%;z-index:4;padding:24px 18px;background:var(--drawer-material);box-shadow:none;backdrop-filter:blur(20px) saturate(145%);-webkit-backdrop-filter:blur(20px) saturate(145%);overflow:auto;visibility:hidden;transition:visibility 0s 260ms}.task-sidebar[aria-hidden=false]{visibility:visible;transition:visibility 0s}.task-sidebar h3{font-size:18px;font-weight:600;margin:0 0 14px}.task-sidebar>button{width:100%;font-size:13px;margin-bottom:12px}.task-list{display:grid;gap:8px}.task-list button{display:block;width:100%;text-align:left;font-size:12px;padding:10px 12px;overflow-wrap:anywhere}.task-list .task-name{display:block;font-size:13px;font-weight:500;line-height:1.45}.task-list .task-detail{display:block;font-size:11px;opacity:.8;margin-top:4px}.viewing-note{margin:8px 0 18px}.viewing-note:empty{display:none}@media(max-width:1320px){.dashboard-layout{padding-left:48px}}@media(max-width:640px){.dashboard-layout{padding:20px 14px 48px 44px}}@media(prefers-reduced-motion:reduce){.drawer-shell,.task-sidebar{transition:none}}
 
 .phase-folder{margin-top:8px}.phase-folder>summary{display:flex;align-items:center;gap:8px;list-style:none;cursor:pointer;font-size:13px;font-weight:500;line-height:1.4;padding:9px 0 12px}.phase-folder>summary::-webkit-details-marker{display:none}.phase-folder .folder-icon{width:20px;height:20px;flex:none;fill:var(--blue)}.phase-folder .folder-chevron{width:14px;height:14px;flex:none;margin-left:auto;fill:none;stroke:var(--muted);stroke-width:1.5;transition:transform 220ms var(--motion-pop)}.phase-folder[open] .folder-chevron{transform:rotate(90deg)}.phase-folder[data-expanded=false] .folder-chevron{transform:rotate(0)}.phase-folder .task-list{margin-bottom:10px}.calculation-timeline{position:sticky;top:12px;z-index:8;width:100%;height:52px;margin-bottom:18px;padding:0;border:0;background:none;box-shadow:none}.calculation-timeline[hidden]{display:none}.timeline-heading,.timeline-step-label{display:none}.timeline-floating{position:relative;width:100%;height:52px;min-width:0}.timeline-toggle{position:absolute;left:var(--timeline-toggle-left,-38px);top:12px;display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:50%;corner-shape:round;background:var(--fg);color:var(--bg);box-shadow:var(--dock-button-shadow);cursor:pointer}.timeline-toggle svg{width:12px;height:12px;fill:none;stroke:currentColor;stroke-width:1.8;stroke-linecap:round;stroke-linejoin:round}.timeline-nodes{position:absolute;left:var(--timeline-rail-left,0px);top:0;display:flex;align-items:center;gap:10px;width:var(--timeline-width,100%);min-width:0;max-width:var(--timeline-width,100%);overflow-x:auto;padding:12px 8px;scrollbar-width:thin;opacity:1;visibility:visible;transform:translateX(0);transform-origin:left center;transition:max-width 280ms var(--motion-drawer),padding 280ms var(--motion-drawer),opacity 180ms var(--motion-out),transform 280ms var(--motion-drawer),box-shadow 180ms var(--motion-out),visibility 0s}.calculation-timeline[data-collapsed=true] .timeline-nodes{max-width:0;padding-left:0;padding-right:0;opacity:0;visibility:hidden;transform:translateX(-16px);pointer-events:none;transition:max-width 280ms var(--motion-drawer),padding 280ms var(--motion-drawer),opacity 180ms var(--motion-out),transform 280ms var(--motion-drawer),box-shadow 180ms var(--motion-out),visibility 0s 280ms}.timeline-step{position:relative;flex:1 0 28px;display:grid;place-items:center;width:28px;height:28px;padding:0}.timeline-step:not(:last-child)::after{content:"";position:absolute;left:50%;width:calc(100% + 10px);top:calc(50% - 1.5px);height:3px;background:var(--line);pointer-events:none}.timeline-node{position:relative;z-index:1;display:grid;place-items:center;width:28px;height:28px;padding:0;border:0;border-radius:50%;corner-shape:round;background:var(--muted);color:var(--muted);font-size:0;cursor:pointer;transform-origin:center bottom;transition:transform 180ms var(--motion-pop),color 140ms var(--motion-out)}.timeline-node[aria-current=true]{background:var(--blue);color:var(--blue)}.timeline-node-icon{display:none;width:18px;height:18px;fill:none;stroke:currentColor;stroke-width:1.7;stroke-linecap:round;stroke-linejoin:round}.calculation-timeline[data-mode=nodes] .timeline-node:hover,.calculation-timeline[data-mode=nodes] .timeline-node:focus-visible{transform:scale(1.35)}.calculation-timeline[data-mode=dock] .timeline-nodes{gap:8px;padding:12px 10px;border-radius:16px;background:color-mix(in srgb,var(--panel) 75%,transparent);box-shadow:var(--dock-shadow);backdrop-filter:blur(12px);-webkit-backdrop-filter:blur(12px)}.calculation-timeline[data-mode=dock] .timeline-step{flex:1 0 28px}.calculation-timeline[data-mode=dock] .timeline-step::after{content:none}.calculation-timeline[data-mode=dock] .timeline-node{width:28px;height:28px;background:none;color:var(--muted);transform:translateY(var(--dock-lift,0px)) scale(var(--dock-scale,1));transition:color 140ms var(--motion-out)}.calculation-timeline[data-mode=dock] .timeline-node-icon{display:block}.calculation-timeline[data-mode=dock] .timeline-node.latest{color:var(--fg)}.calculation-timeline[data-mode=dock] .timeline-node[aria-current=true]{color:var(--blue)}.calculation-timeline[data-mode=dock] .timeline-step:has(.timeline-node[aria-current=true])::before{content:"";position:absolute;left:calc(50% - 2px);bottom:-5px;width:4px;height:4px;border-radius:50%;background:var(--blue)}.calculation-timeline[data-mode=dock] .timeline-node:focus-visible{transform:translateY(-3px) scale(1.3)}.calculation-timeline[data-collapsed=true] .timeline-nodes{padding:0;gap:0;background:none;box-shadow:none;backdrop-filter:none;-webkit-backdrop-filter:none}.timeline-tooltip{max-width:min(360px,calc(100vw - 24px));line-height:1.55;z-index:35;white-space:normal}.tooltip{z-index:50;transform-origin:top center;max-width:min(360px,calc(100vw - 24px));white-space:normal;overflow-wrap:anywhere;word-break:break-word}.continuation-settings{transform-origin:top left}.timeline-toggle{transition:transform 180ms var(--motion-pop)}.timeline-toggle:active{transform:scale(.94)}.timeline-tooltip p{margin:0}.timeline-tooltip p+p{margin-top:5px}.timeline-tooltip .timeline-tip-heading{font-weight:600;color:var(--fg)}@media(max-width:640px){.calculation-timeline{top:8px}}@media(prefers-reduced-motion:reduce){.timeline-nodes,.timeline-node,.timeline-toggle,.folder-chevron{transition:none}.calculation-timeline .timeline-node:hover,.calculation-timeline .timeline-node:focus-visible{transform:none!important}}
@@ -99,14 +100,19 @@ button:is([aria-pressed=true],[aria-current=true]):not(.timeline-node):not(.time
 .calculation-timeline[data-mode=dock] .timeline-node,.calculation-timeline[data-mode=tree] .timeline-node{transform-origin:center center}
 .calculation-timeline[data-mode=tree] .timeline-step:has(.timeline-node[aria-current=true])::before{content:"";position:absolute;left:calc(50% - 2px);bottom:-5px;width:4px;height:4px;border-radius:50%;background:var(--blue)}
 .timeline-node-icon.timeline-node-icon-small{width:16px;height:16px}
+.calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node{transform:translateY(var(--dock-lift,0px))}
+.calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node-icon{transform:scale(var(--dock-scale,1));transform-origin:center}
+.calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node:focus-visible{transform:translateY(-3px)}
+.calculation-timeline:is([data-mode=dock],[data-mode=tree]) .timeline-node:focus-visible .timeline-node-icon{transform:scale(1.12)}
+@media(prefers-reduced-motion:reduce){.calculation-timeline .timeline-node-icon{transform:none!important}}
 .language-toggle{top:48px;z-index:3;font-size:10px;font-weight:600;line-height:1;letter-spacing:.02em}
 html[lang=en] .drawer-toggle{writing-mode:vertical-rl;text-orientation:mixed;letter-spacing:.03em;font-size:11px}
 html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
-.calculation-timeline .timeline-node[data-protected=true]::after,.calculation-timeline[data-mode=nodes] .timeline-node[data-protected=true]::after{inset:4px;border-radius:5px;opacity:.6}
+.calculation-timeline .timeline-node[data-protected=true]::after,.calculation-timeline[data-mode=nodes] .timeline-node[data-protected=true]::after{inset:4px;border-width:1.5px;border-radius:5px;opacity:.9}
 .calculation-timeline[data-mode=tree] .timeline-node[data-on-path=true]{color:var(--muted)}
 .calculation-timeline[data-mode=tree] .timeline-node[aria-current=true]{color:var(--blue)}
 .timeline-tree-edge{opacity:.18;stroke-width:1.2;transition:stroke 140ms var(--motion-out),opacity 140ms var(--motion-out)}
-.timeline-tree-edge[data-on-path=true]{stroke:var(--blue);stroke-width:1.5;opacity:.42}
+.timeline-tree-edge[data-on-path=true]{stroke:var(--blue);stroke-width:1.5;opacity:1}
 @media(prefers-reduced-motion:reduce){.timeline-tree-edge{transition:none}}
 .status-panel{--status-panel-color:#526173;position:relative;isolation:isolate;width:100%;min-width:0;max-width:100%;margin:16px 0;padding:14px 18px;border:0;border-radius:var(--apple-panel-radius);background:var(--status-panel-color);color:#fff;filter:drop-shadow(0 1px 2px color-mix(in srgb,var(--status-panel-color) 22%,transparent)) drop-shadow(0 3px 7.5px color-mix(in srgb,var(--status-panel-color) 26%,transparent));overflow-wrap:anywhere}
 .status-panel[data-state=running]{--status-panel-color:#2563ad}.status-panel[data-state=paused]{--status-panel-color:#7752a3}.status-panel[data-state=passed]{--status-panel-color:#23734c}.status-panel[data-state=ended]{--status-panel-color:#98610d}.status-panel[data-state=failed]{--status-panel-color:#b32d35}
@@ -115,7 +121,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
 </style>
 <script src="./continuous-corners.js?v=20261008-single-surface-4" defer></script>
 <script src="./rolling-ranges.js"></script>
-<script src="./dashboard-i18n.js?v=20261008-4" defer></script>
+<script src="./dashboard-i18n.js?v=20261008-5" defer></script>
 <style>
 .continuation-settings,.runtime-settings{display:none!important}.dashboard-layout:has(.showcase-banner:not([hidden])){padding-top:0}.showcase-banner{position:relative;isolation:isolate;margin:0 0 18px;padding:12px 44px 12px 16px;border-radius:var(--apple-panel-radius);background:var(--surface-material);color:var(--muted);box-shadow:none;filter:drop-shadow(0 3px 7.5px var(--floating-shadow-color))}.showcase-banner[hidden]{display:none!important}.showcase-banner>.showcase-dismiss{position:absolute!important;top:8px;right:8px;width:24px;height:24px;padding:0;display:grid;place-items:center;border:0;border-radius:6px;background:none!important;background-image:none!important;color:var(--muted);box-shadow:none!important;filter:none!important;cursor:pointer}.showcase-dismiss::before{content:none!important}.showcase-dismiss:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.showcase-dismiss:hover{color:var(--fg)}</style>
 </head>
@@ -160,7 +166,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       <div><h3 id="currentFlowTitle">下图 · 当前模型 · 最新已保存流场</h3><div id="flowMeta" class="flow-meta small muted mono">等待已保存流场记录</div><div id="flowViewerStatus" class="small muted" role="status"></div><div id="flowInterpretation" class="small muted"></div><div id="flowPlaceholder" class="flow-placeholder small muted" role="status">等待已保存流场，或正在渲染最新快照…</div></div>
     </div>
     <p id="flowComparisonNote" class="small muted">两图使用相同米制视角与共同 Mach 色标。当前模型每 1000 步保存快照，非逐步动画；其未收敛诊断场不能作为已收敛的气动结果。</p>
-    <div class="flow-tools"><span id="flowInteraction" class="small muted">在任一图中滚轮缩放、拖动平移，两图同步</span><button id="flowReset" type="button">两图复位</button></div>
+    <div class="flow-tools"><span id="flowInteraction" class="small muted" aria-live="polite">在任一图中滚轮缩放、拖动平移，两图同步</span><div class="flow-tool-actions"><button id="flowTouchToggle" type="button" aria-pressed="false" aria-controls="baselineFlowCanvas flowCanvas" aria-label="双指捏合缩放" title="双指捏合缩放">双指缩放</button><button id="flowReset" type="button">两图复位</button></div></div>
     <canvas id="baselineFlowCanvas" class="flow-canvas" role="img" aria-label="原 30P30N 已验收二阶 Mach 流场，与当前流场同步缩放和平移" hidden></canvas>
     <img id="baselineFlowImage" class="flow-image" alt="原 30P30N 已验收二阶流场的 Mach 分布" hidden>
     <canvas id="flowCanvas" class="flow-canvas" role="img" aria-label="实际网格的 Mach 流场，可用滚轮缩放、拖动平移" hidden></canvas>
@@ -271,7 +277,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   if(flowScaleRanges.mach)[flowScaleMin,flowScaleMax]=flowScaleRanges.mach;
   flowScaleRanges.mach=[flowScaleMin,flowScaleMax];
   const flowChord=.4572,flowCamera={x:.65*flowChord,y:.05*flowChord,halfHeight:.45*flowChord};
-  let flowViewInitialized=false;
+  let flowViewInitialized=false,flowTouchEnabled=false,flowTouchModeChanged=false;
   const flowViewers=[];
   const ns = 'http://www.w3.org/2000/svg';
   function node(tag,attrs={},text){const e=document.createElementNS(ns,tag);for(const [k,v] of Object.entries(attrs))e.setAttribute(k,v);if(text!==undefined)e.textContent=text;return e;}
@@ -398,7 +404,18 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     plot('dragRangePlot',['CD_range_250','CD_range_1250'],'ΔCD（对数刻度）',{...options,threshold:.00001,labels:{CD_range_250:'250 步峰峰变化',CD_range_1250:'1250 步峰峰变化'}});
   }
   function drawFlowViewers(){for(const viewer of flowViewers)viewer.draw();}
+  function clearFlowGestures(){for(const viewer of flowViewers)viewer.cancelInteraction();}
+  function updateFlowInteraction(interactive){
+    $('flowInteraction').textContent=interactive?(flowTouchEnabled?'双指捏合缩放，单指平移；两图同步':flowTouchModeChanged?'触控缩放关闭，可正常滚动页面':'在任一网格图中滚轮缩放、拖动平移，两图同步'):flowField==='mach'?'正在加载流场网格；PNG 预览保留源色标':'所选参数需要交互网格；PNG 预览仅支持 Mach';
+  }
+  function setFlowTouchEnabled(enabled){
+    clearFlowGestures();flowTouchEnabled=enabled;flowTouchModeChanged=true;
+    $('flowTouchToggle').setAttribute('aria-pressed',String(enabled));
+    for(const id of ['baselineFlowCanvas','flowCanvas'])$(id).dataset.touchZoom=String(enabled);
+    updateFlowInteraction(!$('baselineFlowCanvas').hidden||!$('flowCanvas').hidden);
+  }
   function resetFlowView(){
+    clearFlowGestures();
     const canvas=['baselineFlowCanvas','flowCanvas'].map($).find(c=>!c.hidden&&c.clientWidth&&c.clientHeight)||$('flowCanvas');
     const width=canvas.clientWidth,height=canvas.clientHeight;
     flowCamera.x=.65*flowChord;flowCamera.y=.05*flowChord;
@@ -490,21 +507,70 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       if(flowViewInitialized)drawMesh();
     }
     function mouse(event){const rect=canvas.getBoundingClientRect(),{width,height}=size();return {x:2*(event.clientX-rect.left-canvas.clientLeft)/width-1,y:1-2*(event.clientY-rect.top-canvas.clientTop)/height,aspect:width/height};}
+    const zoomHeight=value=>Math.max(chord*1e-7,Math.min(chord*1e5,value));
     canvas.addEventListener('wheel',event=>{
       if(!supported||!count)return;event.preventDefault();
+      cancelInteraction();
       const p=mouse(event),anchorX=camera.x+p.x*camera.halfHeight*p.aspect,anchorY=camera.y+p.y*camera.halfHeight;
       const delta=event.deltaY*(event.deltaMode===1?16:event.deltaMode===2?canvas.clientHeight:1);
-      camera.halfHeight=Math.max(chord*1e-7,Math.min(chord*1e5,camera.halfHeight*Math.exp(Math.max(-1,Math.min(1,delta*.0015)))));
+      camera.halfHeight=zoomHeight(camera.halfHeight*Math.exp(Math.max(-1,Math.min(1,delta*.0015))));
       camera.x=anchorX-p.x*camera.halfHeight*p.aspect;camera.y=anchorY-p.y*camera.halfHeight;drawFlowViewers();
     },{passive:false});
-    let drag=null;
-    canvas.addEventListener('pointerdown',event=>{if(!supported||!count||event.button!==0)return;drag={id:event.pointerId,x:event.clientX,y:event.clientY};canvas.setPointerCapture(event.pointerId);canvas.classList.add('dragging');});
-    canvas.addEventListener('pointermove',event=>{if(!drag||drag.id!==event.pointerId)return;const {height}=size();camera.x-=(event.clientX-drag.x)*2*camera.halfHeight/height;camera.y+=(event.clientY-drag.y)*2*camera.halfHeight/height;drag.x=event.clientX;drag.y=event.clientY;drawFlowViewers();});
-    const endDrag=()=>{drag=null;canvas.classList.remove('dragging');};
-    canvas.addEventListener('pointerup',endDrag);canvas.addEventListener('pointercancel',endDrag);canvas.addEventListener('lostpointercapture',endDrag);
-    canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();supported=false;onContextLost();});
+    let drag=null,touchGesture=null;
+    const touchPointers=new Map();
+    const point=event=>({id:event.pointerId,x:event.clientX,y:event.clientY});
+    function capture(id){try{canvas.setPointerCapture(id);}catch(error){}}
+    function release(id){try{if(canvas.hasPointerCapture(id))canvas.releasePointerCapture(id);}catch(error){}}
+    function rebaseTouchGesture(){
+      const points=[...touchPointers.values()].slice(0,2);
+      if(points.length===2){
+        const [a,b]=points,center={clientX:(a.x+b.x)/2,clientY:(a.y+b.y)/2},p=mouse(center);
+        touchGesture={ids:[a.id,b.id],distance:Math.max(1,Math.hypot(a.x-b.x,a.y-b.y)),halfHeight:camera.halfHeight,anchorX:camera.x+p.x*camera.halfHeight*p.aspect,anchorY:camera.y+p.y*camera.halfHeight};
+      }else touchGesture=null;
+      canvas.classList.toggle('dragging',points.length>0||drag!==null);
+    }
+    function cancelInteraction(){
+      const ids=[...touchPointers.keys(),...(drag?[drag.id]:[])];
+      touchPointers.clear();touchGesture=null;drag=null;canvas.classList.remove('dragging');
+      for(const id of ids)release(id);
+    }
+    canvas.addEventListener('pointerdown',event=>{
+      if(!supported||!count)return;
+      if(event.pointerType==='touch'){
+        if(!flowTouchEnabled)return;event.preventDefault();
+        if(drag){const id=drag.id;drag=null;release(id);}
+        touchPointers.set(event.pointerId,point(event));capture(event.pointerId);rebaseTouchGesture();
+      }else if(event.button===0&&!drag&&!touchPointers.size){drag=point(event);capture(event.pointerId);canvas.classList.add('dragging');}
+    });
+    canvas.addEventListener('pointermove',event=>{
+      if(touchPointers.has(event.pointerId)){
+        if(!flowTouchEnabled){cancelInteraction();return;}event.preventDefault();
+        const previous=touchPointers.get(event.pointerId);touchPointers.set(event.pointerId,point(event));
+        if(touchGesture){
+          const [a,b]=touchGesture.ids.map(id=>touchPointers.get(id));
+          if(!a||!b){rebaseTouchGesture();return;}
+          const p=mouse({clientX:(a.x+b.x)/2,clientY:(a.y+b.y)/2}),distance=Math.max(1,Math.hypot(a.x-b.x,a.y-b.y));
+          camera.halfHeight=zoomHeight(touchGesture.halfHeight*touchGesture.distance/distance);
+          camera.x=touchGesture.anchorX-p.x*camera.halfHeight*p.aspect;camera.y=touchGesture.anchorY-p.y*camera.halfHeight;
+        }else{
+          const {height}=size();if(!height)return;
+          camera.x-=(event.clientX-previous.x)*2*camera.halfHeight/height;camera.y+=(event.clientY-previous.y)*2*camera.halfHeight/height;
+        }
+        drawFlowViewers();
+      }else if(drag&&drag.id===event.pointerId){
+        const {height}=size();if(!height)return;
+        camera.x-=(event.clientX-drag.x)*2*camera.halfHeight/height;camera.y+=(event.clientY-drag.y)*2*camera.halfHeight/height;drag=point(event);drawFlowViewers();
+      }
+    });
+    function endPointer(event){
+      if(touchPointers.delete(event.pointerId)){release(event.pointerId);rebaseTouchGesture();}
+      if(drag?.id===event.pointerId){drag=null;release(event.pointerId);canvas.classList.remove('dragging');}
+    }
+    canvas.addEventListener('pointerup',endPointer);canvas.addEventListener('pointercancel',cancelInteraction);canvas.addEventListener('lostpointercapture',endPointer);
+    window.addEventListener('blur',cancelInteraction);document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelInteraction();});
+    canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();cancelInteraction();supported=false;onContextLost();});
     new ResizeObserver(drawMesh).observe(canvas);
-    const viewer={supported:()=>supported,hasMesh:()=>count>0,clear:()=>{count=0;meshFields=[];scalarArrays=new Map();activeField=null;},fields:()=>meshFields,hasField:id=>scalarArrays.has(id),setField,upload,draw:drawMesh};flowViewers.push(viewer);return viewer;
+    const viewer={supported:()=>supported,hasMesh:()=>count>0,clear:()=>{cancelInteraction();count=0;meshFields=[];scalarArrays=new Map();activeField=null;},cancelInteraction,fields:()=>meshFields,hasField:id=>scalarArrays.has(id),setField,upload,draw:drawMesh};flowViewers.push(viewer);return viewer;
   }
   const baselineFlowDisplay=createFlowDisplay('baselineFlow','原 30P30N'),currentFlowDisplay=createFlowDisplay('flow','当前模型');
   function currentFlowFieldLabel(){return flowFieldLabels[flowField]||flowField;}
@@ -536,7 +602,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   function writeFlowScaleControls(){
     $('flowMinNumber').value=String(flowScaleMin);$('flowMaxNumber').value=String(flowScaleMax);updateSliderDomain();colorbar(flowScaleMin,flowScaleMax);
   }
-  function setFlowControls(enabled){for(const id of ['flowMinSlider','flowMinNumber','flowMaxSlider','flowMaxNumber','flowScaleApply','flowReset'])$(id).disabled=!enabled;}
+  function setFlowControls(enabled){for(const id of ['flowMinSlider','flowMinNumber','flowMaxSlider','flowMaxNumber','flowScaleApply','flowTouchToggle','flowReset'])$(id).disabled=!enabled;}
   function applyFlowScale(){
     const min=$('flowMinNumber').valueAsNumber,max=$('flowMaxNumber').valueAsNumber;
     const bound=flowAbsoluteMin();
@@ -555,6 +621,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     let [min,max]=flowField==='mach'?[0,.5]:flowFieldRange(flowField);const bound=flowAbsoluteMin();if(bound!==null)min=Math.max(bound,min);
     $('flowMinNumber').value=String(min);$('flowMaxNumber').value=String(max);applyFlowScale();
   });$('flowReset').addEventListener('click',resetFlowView);
+  $('flowTouchToggle').addEventListener('click',()=>setFlowTouchEnabled(!flowTouchEnabled));
   const styledSelects=new Map();let selectMenuOwner=null;
   function closeSelectMenu(returnFocus=false){
     const previous=selectMenuOwner;selectMenuOwner=null;setSurfaceVisible($('selectMenu'),false);
@@ -619,7 +686,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     select.value=flowField;select.disabled=fields.length<2;refreshStyledSelects();
     const interactive=!$('baselineFlowCanvas').hidden||!$('flowCanvas').hidden;
     setFlowControls(interactive);
-    $('flowInteraction').textContent=interactive?'在任一网格图中滚轮缩放、拖动平移，两图同步':flowField==='mach'?'正在加载流场网格；PNG 预览保留源色标':'所选参数需要交互网格；PNG 预览仅支持 Mach';
+    updateFlowInteraction(interactive);
     colorbar(flowScaleMin,flowScaleMax);
   }
   function createFlowDisplay(prefix,label){
@@ -835,6 +902,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   document.addEventListener('keydown',event=>{if(event.key==='Escape'&&taskDrawerOpen){event.preventDefault();setTaskDrawerOpen(false,true);}});
   function selectTask(run){
     if(controlBusy)return;
+    clearFlowGestures();
     setTaskDrawerOpen(false);hideTimelineTooltip();closeStageMenu();
     selectedTask=run||null;const url=new URL(window.location.href);if(selectedTask)url.searchParams.set('run',selectedTask);else url.searchParams.delete('run');window.history.replaceState(null,'',url);
     ++pollSerial;if(progressAbort)progressAbort.abort();busy=false;
@@ -864,12 +932,12 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     $('returnCurrentRun').disabled=d.run===window.DASHBOARD_SHOWCASE.current_run;
     setCaseText($('viewingRunNote'),`正在查看保存节点 ${d.run}；图表沿真实祖先路径展示，数据截至导出时刻。`);
   }
-  function dockScale(distance,sigma){return finite(distance)&&finite(sigma)?1+.5*Math.exp(-.5*(distance/Math.max(1,sigma))**2):1;}
+  function dockScale(distance,sigma){return finite(distance)&&finite(sigma)?1+.12*Math.exp(-.5*(distance/Math.max(1,sigma))**2):1;}
   function timelineDockCenters(){return Array.from($('timelineNodes').querySelectorAll('.timeline-step')).map(step=>{const rect=step.getBoundingClientRect();return {step,x:rect.left+rect.width/2,y:rect.top+rect.height/2};});}
   function timelineDockSigma(centers){
-    if(centers.length<2)return 20;
+    if(centers.length<2)return 16;
     const spacings=centers.map((point,index)=>Math.min(...centers.filter((_,other)=>other!==index).map(other=>Math.hypot(point.x-other.x,point.y-other.y)))).filter(value=>value>0).sort((a,b)=>a-b);
-    return Math.max(12,(spacings[Math.floor(spacings.length/2)]||36)*.55);
+    return Math.min(18,Math.max(12,(spacings[Math.floor(spacings.length/2)]||36)*.3));
   }
   function scheduleDockFrame(){if(!dockFrame){dockLastTime=0;dockFrame=requestAnimationFrame(animateDock);}}
   function animateDock(timestamp){
@@ -887,7 +955,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     for(const [button,state] of dockStates){
       for(let i=0;i<steps;i++){state.velocity+=(480*(state.target-state.scale)-35*state.velocity)*h;state.scale+=state.velocity*h;}
       if(Math.abs(state.scale-state.target)<.0001&&Math.abs(state.velocity)<.001){state.scale=state.target;state.velocity=0;}else moving=true;
-      button.style.setProperty('--dock-scale',String(state.scale));button.style.setProperty('--dock-lift',`${-6*(state.scale-1)}px`);
+      button.style.setProperty('--dock-scale',String(state.scale));button.style.setProperty('--dock-lift',`${-25*(state.scale-1)}px`);
     }
     updateTimelineTreeEdges();
     if(moving)dockFrame=requestAnimationFrame(animateDock);
@@ -1160,7 +1228,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     try{
       const url=selectedTask?`/api/progress?run=${encodeURIComponent(selectedTask)}`:'/api/progress';
       const response=await fetch(url,{cache:'no-store',signal:progressAbort.signal});if(!response.ok)throw new Error(`HTTP ${response.status}`);
-      const next=await response.json();if(serial!==pollSerial)return;data=next;render();$('connection').textContent='';
+      const next=await response.json();if(serial!==pollSerial)return;if(data&&data.run!==next.run)clearFlowGestures();data=next;render();$('connection').textContent='';
     }catch(e){if(serial!==pollSerial||e.name==='AbortError')return;$('connection').textContent='快照资源读取失败，保留已加载数据；请检查页面资源路径。';$('connection').className='error';}
     finally{if(serial===pollSerial)busy=false;}
   }
