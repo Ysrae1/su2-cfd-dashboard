@@ -1,5 +1,5 @@
 /* One SVG contour for every browser, including Safari without corner-shape.
- * Version 2026-10-08-border-box-2: glass, fill and outline share one local box.
+ * Version 2026-10-08-single-surface-3: one translucent fill per surface.
  */
 (() => {
   'use strict';
@@ -245,7 +245,7 @@
       if (!drawerOutline) return;
       const width = drawerToggle.offsetWidth, height = drawerShell.clientHeight, handleHeight = drawerToggle.offsetHeight;
       if (!(width > 0 && height > 0 && handleHeight > 0)) { drawerOutline.style.display = 'none'; return; }
-      const radius = byElement.get(drawerToggle)?.radius || 14;
+      const radius = parseFloat(getComputedStyle(drawerToggle).borderTopRightRadius) || 20;
       const key = [width, height, handleHeight, radius, drawerShell.clientWidth].join('|');
       if (key === drawerOutlineKey) return;
       const inset = .5, right = width - inset;
@@ -388,8 +388,8 @@
       const selected = element.tagName === 'BUTTON' && element.getAttribute('aria-current') === 'true';
       const statusPanel = element.classList.contains('status-panel');
       const fill = statusPanel ? getComputedStyle(element).getPropertyValue('--status-panel-color').trim() : edgeHandle ? theme.drawer : element.classList.contains('tooltip') ? theme.tooltip : selected || pressed ? theme.selected : theme.panel;
-      const stroke = statusPanel || selected || pressed ? "none" : edgeHandle ? theme.drawer : theme.line;
-      const strokeWidth = statusPanel || selected || pressed ? 0 : .7;
+      const stroke = edgeHandle ? theme.drawer : "none";
+      const strokeWidth = edgeHandle ? .7 : 0;
       if (edgeHandle) {
         // Clip the glass layer to the same contour as its SVG surface.
         const clip = `path("${continuousPath(width, height, record.radius)}")`;
