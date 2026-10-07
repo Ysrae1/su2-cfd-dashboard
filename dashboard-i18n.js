@@ -28,6 +28,7 @@
     '只读展示：保护、新建分支与归档不可用；可隐藏或恢复本浏览器的绘图显示。':'Read-only: protect, branch, and archive are disabled. Hide or show segments in this browser.',
     'CFL 上限':'CFL Limit', '计算格式':'Discretization', '流动重构阶数':'Flow Reconstruction',
     '空间离散':'Spatial Discretization', '流动更新松弛系数':'Flow Relaxation',
+    '线性求解容差':'Linear Solver Tolerance', '线性迭代上限':'Linear Iteration Limit', '梯度方法':'Gradient Method',
     '一阶诊断':'First Order', '一阶':'First Order',
     '二阶':'Second Order', '原二阶':'Original Second Order',
     '原生自动停止':'Native Auto-stop', 'SU2 原生停止判据':'SU2 Native Stopping Rule',
@@ -41,7 +42,7 @@
     '构型 / 状态':'Configuration / Status', '原 30P30N · 已验收二阶 CFD':'Original 30P30N · Accepted Second-order CFD',
     '当前模型 · 迭代过程值':'Current Model · Iteration Values',
     '当前模型的改动':'Model Changes', '当前 SF · 后翼片改动':'Current SF · Flap Changes',
-    '原 30P30N':'Original 30P30N', '当前模型':'Current Model',
+    '原 30P30N':'Original 30P30N', '当前模型':'Current Model', '原30P30N':'Original 30P30N', '展示快照':'Saved Snapshot', '关闭只读提示':'Dismiss Read-only Notice',
     '原 30P30N · 本项目二阶 CFD 基准':'Original 30P30N · Project CFD Reference',
     '全部迭代':'All', '显示步数':'Window Size', '升力系数 CL':'Lift Coefficient CL',
     '阻力系数 CD':'Drag Coefficient CD', '残差（log₁₀）':'Residuals (log₁₀)',
@@ -219,6 +220,7 @@
   const rule = (pattern, translation) => rules.push([pattern, translation]);
   const known = text => exact.get(text) || text;
   const field = text => known(text);
+  rule(/^当前实际计算格式：([^。]+)。$/, (_,order)=>`Current discretization: ${known(order)}.`);
   rule(/^(\d+)分 (\d+)秒$/, (_,m,s)=>`${m}m ${s}s`);
   rule(/^最近 ([\d,]+) 步$/, (_,n)=>`Recent ${n}`);
   rule(/^显示全部 ([\d,]+) 条迭代记录$/, (_,n)=>`Showing all ${n} iterations`);
@@ -277,8 +279,8 @@
   rule(/^正在查看保存节点 (.+?)；图表沿真实祖先路径展示，数据截至导出时刻。$/, (_,run)=>`Viewing saved node ${run}. The curves follow its actual ancestry; all data are current as of export.`);
   rule(/^(分支|续算)来源：(.+?)。继承此节点的已保存结果与设置；(提交后创建独立分支|提交后沿原路径追加续算阶段)，原记录保留。$/, (_,kind,run,action)=>`${kind==='分支'?'Branch':'Continuation'} source: ${run}. This node’s saved state and settings are inherited. Submitting ${action==='提交后创建独立分支'?'creates an independent branch':'adds a continuation to the existing path'}, retaining the original records.`);
   rule(/^(.+?) · 原生停止(开启|关闭) · (修改设置后续算|从固定初态开始)$/, (_,head,state,mode)=>`${translate(head)} · Native stop ${known(state)} · ${mode==='修改设置后续算'?'Adjusted Continuation':'Initialized from Fixed State'}`);
-  rule(/^(CFL 上限|空间离散|原生自动停止|流动更新松弛系数) (.+)$/, (_,label,value)=>`${known(label)} ${known(value)}`);
-  rule(/^(CFL 上限|流动重构阶数|原生自动停止|空间离散|流动更新松弛系数)：(.+)$/, (_,label,value)=>`${known(label)}: ${translate(value)}`);
+  rule(/^(CFL 上限|空间离散|原生自动停止|流动更新松弛系数|线性求解容差|线性迭代上限|梯度方法) (.+)$/, (_,label,value)=>`${known(label)} ${known(value)}`);
+  rule(/^(CFL 上限|流动重构阶数|原生自动停止|空间离散|流动更新松弛系数|线性求解容差|线性迭代上限|梯度方法)：(.+)$/, (_,label,value)=>`${known(label)}: ${translate(value)}`);
   rule(/^(流场绘图参数|计算格式|原生自动停止)：(.+)$/, (_,label,value)=>`${known(label)}: ${known(value)}`);
   rule(/^(监控异常|控制失败|删除未完成|保护状态未更新)：(.+)$/, (_,label,error)=>`${({'监控异常':'Monitor error','控制失败':'Run action failed','删除未完成':'Archive failed','保护状态未更新':'Protection update failed'})[label]}: ${translate(error)}`);
   rule(/^操作未完成（HTTP (.+?)）$/, (_,status)=>`Action failed (HTTP ${status})`);

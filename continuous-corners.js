@@ -1,9 +1,11 @@
-/* One SVG contour for every browser, including Safari without corner-shape. */
+/* One SVG contour for every browser, including Safari without corner-shape.
+ * Version 2026-10-08-border-box-2: glass, fill and outline share one local box.
+ */
 (() => {
   'use strict';
 
-  const surfaceSelector = '.status-panel,section.plot,.stat,.comparison-panel,.runtime-settings,.continuation-settings,button:not(.timeline-node):not(.timeline-toggle):not(.drawer-toggle):not(.timeline-branch-toggle),.tooltip,.flow-control-row input[type=number],.continuation-settings input,.continuation-settings select,.history-selector select,.runtime-row input,.window-count input[type=number],#flowField';
-  const mediaSelector = '.flow-canvas,.flow-image';
+  const surfaceSelector = '.showcase-banner,.status-panel,section.plot,.stat,.comparison-panel,.runtime-settings,.continuation-settings,button:not(.timeline-node):not(.timeline-toggle):not(.drawer-toggle):not(.timeline-branch-toggle),.tooltip,.flow-control-row input[type=number],.continuation-settings input,.continuation-settings select,.history-selector select,.runtime-row input,.window-count input[type=number],#flowField';
+  const mediaSelector = '.flow-viewport,.flow-canvas,.flow-image';
   const svgNamespace = 'http://www.w3.org/2000/svg';
   const diagonal = 1 - Math.pow(0.5, 0.25);
 
@@ -64,6 +66,26 @@
     return commands.join(' ');
   }
 
+  function surfaceGeometry(style, fallbackWidth, fallbackHeight) {
+    const pixels = value => Math.max(0, parseFloat(value) || 0);
+    const borders = {
+      top: pixels(style.borderTopWidth), right: pixels(style.borderRightWidth),
+      bottom: pixels(style.borderBottomWidth), left: pixels(style.borderLeftWidth)
+    };
+    let width = parseFloat(style.width), height = parseFloat(style.height);
+    if (style.boxSizing !== 'border-box') {
+      width += pixels(style.paddingLeft) + pixels(style.paddingRight) + borders.left + borders.right;
+      height += pixels(style.paddingTop) + pixels(style.paddingBottom) + borders.top + borders.bottom;
+    }
+    if (!(width > 0 && Number.isFinite(width))) width = fallbackWidth;
+    if (!(height > 0 && Number.isFinite(height))) height = fallbackHeight;
+    // Absolute inset:0 starts inside the parent's border. Negative border
+    // widths move the glass pseudo-element back to the SVG border-box origin.
+    const materialInset = [borders.top, borders.right, borders.bottom, borders.left]
+      .map(value => `${number(-value)}px`).join(' ');
+    return { width, height, borders, materialInset };
+  }
+
   // A single glass contour for the rail and its centered lower-edge handle.
   function timelineSurfacePath(width, railHeight, handleWidth = 40, handleHeight = 20, inset = 0) {
     const w = Number(width), h = Number(railHeight), hw = Math.min(Number(handleWidth), w - 32), hh = Number(handleHeight), i = Number(inset);
@@ -91,7 +113,7 @@
 
   // Allow a dependency-free numerical check without starting a browser.
   if (typeof document === 'undefined') {
-    if (typeof module !== 'undefined') module.exports = { continuousPath, cornerSegments, timelineSurfacePath };
+    if (typeof module !== 'undefined') module.exports = { continuousPath, cornerSegments, timelineSurfacePath, surfaceGeometry };
     return;
   }
 
@@ -110,8 +132,10 @@
     const records = [];
     const byElement = new WeakMap();
     const parents = new Set();
+    let mediaShadowId = 0;
     const escape = value => String(value).replace(/&/g, '&amp;').replace(/"/g, '&quot;').replace(/</g, '&lt;');
     function addRecord(element, media) {
+      if (element.classList.contains('showcase-dismiss')) return;
       // Read before the class replaces native radii. Hidden elements still have computed styles.
       const radius = parseFloat(getComputedStyle(element).borderTopLeftRadius) || 0;
       const record = { element, radius, media, overlay: null, lastKey: null };
@@ -127,13 +151,35 @@
           overlay.style.pointerEvents = 'none';
           overlay.setAttribute('hidden', '');
           overlay.style.display = 'none';
+          const defs = document.createElementNS(svgNamespace, 'defs');
+          const filter = document.createElementNS(svgNamespace, 'filter');
+          filter.id = `continuousFlowShadow${mediaShadowId++}`;
+          filter.setAttribute('filterUnits', 'userSpaceOnUse');
+          for (const [name, attributes] of [
+            ['feGaussianBlur', { in: 'SourceAlpha', stdDeviation: '7.5', result: 'blur' }],
+            ['feOffset', { in: 'blur', dx: '0', dy: '3', result: 'offset' }],
+            ['feFlood', { 'flood-color': 'var(--floating-shadow-color)', result: 'color' }],
+            ['feComposite', { in: 'color', in2: 'offset', operator: 'in', result: 'shadow' }],
+            ['feComposite', { in: 'shadow', in2: 'SourceAlpha', operator: 'out' }]
+          ]) {
+            const primitive = document.createElementNS(svgNamespace, name);
+            for (const [key, value] of Object.entries(attributes)) primitive.setAttribute(key, value);
+            filter.append(primitive);
+          }
+          defs.append(filter);
+          const shadow = document.createElementNS(svgNamespace, 'path');
+          shadow.setAttribute('fill', '#000');
+          shadow.setAttribute('stroke', 'none');
+          shadow.setAttribute('filter', `url(#${filter.id})`);
           const path = document.createElementNS(svgNamespace, 'path');
           path.setAttribute('fill', 'none');
-          path.setAttribute('stroke-width', '1');
-          overlay.append(path);
+          path.setAttribute('stroke-width', '.7');
+          overlay.append(defs, shadow, path);
           parent.append(overlay);
           record.overlay = overlay;
           record.outline = path;
+          record.shadow = shadow;
+          record.shadowFilter = filter;
           record.parent = parent;
           parents.add(parent);
         }
@@ -142,7 +188,12 @@
       byElement.set(element, record);
     }
     document.querySelectorAll(surfaceSelector).forEach(element => addRecord(element, false));
-    document.querySelectorAll(mediaSelector).forEach(element => addRecord(element, true));
+    document.querySelectorAll(mediaSelector).forEach(element => {
+      // A flow viewport owns its children's silhouette; two nested clip paths
+      // with different origins would reproduce the same material mismatch.
+      if (!element.classList.contains('flow-viewport') && element.closest('.flow-viewport')) return;
+      addRecord(element, true);
+    });
 
     const drawerShell = document.getElementById('taskDrawerShell');
     const drawerToggle = document.getElementById('taskDrawerToggle');
@@ -292,9 +343,12 @@
     function render(record) {
       const element = record.element;
       const rect = element.getBoundingClientRect();
-      // Clip and paint in local CSS coordinates: transforms only move the result.
-      const width = element.offsetWidth, height = element.offsetHeight;
-      const visible = !element.hidden && width > 0 && height > 0;
+      // Computed dimensions retain fractional layout pixels, while excluding
+      // entrance/hover transforms. Every surface layer uses this border box.
+      const computed = getComputedStyle(element);
+      const geometry = surfaceGeometry(computed, element.offsetWidth, element.offsetHeight);
+      const { width, height } = geometry;
+      const visible = !element.hidden && element.offsetWidth > 0 && element.offsetHeight > 0;
       if (!visible) {
         if (record.overlay) {
           record.overlay.setAttribute('hidden', '');
@@ -306,6 +360,7 @@
       if (record.media) {
         const path = continuousPath(width, height, record.radius);
         const clip = `path("${path}")`;
+        element.style.setProperty('--continuous-clip', clip);
         if (element.style.clipPath !== clip) element.style.clipPath = clip;
         if (element.style.webkitClipPath !== clip) element.style.webkitClipPath = clip;
         if (record.overlay) {
@@ -318,7 +373,12 @@
           overlay.style.width = `${width}px`;
           overlay.style.height = `${height}px`;
           overlay.setAttribute('viewBox', `0 0 ${number(width)} ${number(height)}`);
-          record.outline.setAttribute('d', continuousPath(width, height, record.radius, 0.5));
+          record.shadow.setAttribute('d', path);
+          record.shadowFilter.setAttribute('x', '-32');
+          record.shadowFilter.setAttribute('y', '-32');
+          record.shadowFilter.setAttribute('width', number(width + 64));
+          record.shadowFilter.setAttribute('height', number(height + 64));
+          record.outline.setAttribute('d', continuousPath(width, height, record.radius, 0.35));
           record.outline.setAttribute('stroke', theme.line);
         }
         return;
@@ -336,7 +396,8 @@
         if (element.style.clipPath !== clip) element.style.clipPath = clip;
         if (element.style.webkitClipPath !== clip) element.style.webkitClipPath = clip;
       }
-      const key = [width, height, record.radius, fill, stroke, strokeWidth, theme.fg].join('|');
+      element.style.setProperty('--continuous-material-inset', geometry.materialInset);
+      const key = [width, height, record.radius, fill, stroke, strokeWidth, theme.fg, geometry.materialInset].join('|');
       if (record.lastKey === key) return;
       element.style.setProperty('--continuous-clip', `path("${continuousPath(width, height, record.radius)}")`);
       const path = continuousPath(width, height, record.radius, strokeWidth / 2);
