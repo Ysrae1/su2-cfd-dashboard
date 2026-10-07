@@ -78,7 +78,7 @@
     '数值设置沿用':'Numerical settings inherited.', '数值设置变化：':'Numerical changes:',
     '设置变更':'Settings Changed', '初算':'Initial Run', '计算段':'Run Segment',
     '操作未记录':'Operation Not Recorded', '所选计算':'Selected Run',
-    'SF 试算':'SF Pilot', 'DS 试算':'DS Pilot', '计算任务':'Run',
+    'SF 试算':'SF Pilot', 'DS 试算':'DS Pilot', '计算任务':'Run', 'CFD 计算':'CFD Run',
     '运行中':'Running', '计算中':'Running', '已暂停':'Paused', '待开始':'Ready',
     '正在启动':'Starting', '启动中':'Starting', '正在停止':'Stopping',
     '已结束':'Ended', '已停止':'Stopped', '计算已停止':'Run stopped', '执行失败':'Failed',
@@ -139,6 +139,7 @@
     '当前是一阶诊断，系数差异包含离散格式的影响。':'This is a first-order diagnostic. Differences in the coefficients also reflect the discretization scheme.',
     '数值稳定性条件已达标；气动比较的物理验证状态见验收记录。':'Numerical stability criteria have been met. Consult the acceptance record for the physical validation status of aerodynamic comparisons.',
     '当前是二阶续算，仍需检查数值稳定性与保存流场后再比较气动结果。':'This is a second-order continuation. Numerical stability and the saved field must be checked before comparing aerodynamic results.',
+    '当前是二阶冷启动，仍需检查数值稳定性与保存流场后再比较气动结果。':'This is a second-order cold start. Check numerical stability and the saved field before comparing aerodynamic results.',
     '图线只显示所选节点沿真实检查点来源的来时路径；展开分支可切换节点。绘图窗口与隐藏操作不改变检查标准。':'The curves follow the selected node’s actual checkpoint ancestry. Expand the branches to select another node. Plot windows and hidden segments do not change the acceptance criteria.',
     '这些是计算过程值，尚不能作为已收敛的气动结果。':'These are iteration values, not yet converged aerodynamic results.',
     '当前系数仍不能作为已收敛的气动结果。':'The current coefficients cannot yet be treated as converged aerodynamic results.',
@@ -154,6 +155,7 @@
     '前缘缝翼与主翼几何未改；顺序为形状修改 → 旋转 → 平移。':'The slat and main element are unchanged. The flap transformations are applied in this order: shape change → rotation → translation.',
     '网格由原始 L3 网格经弹性变形得到，保留原节点与单元拓扑。':'The mesh was elastically deformed from the original L3 mesh, preserving its nodes and element topology.',
     '当前网格未匹配已记录的 SF 改动，暂不标注几何参数。':'The current mesh does not match the recorded SF modification; geometry parameters are not reported.',
+    '当前网格的几何来源未匹配已记录的原始或改动模型，暂不标注几何参数。':'The mesh does not match a recorded original or modified geometry; geometry parameters are not reported.',
     '提交后开始计算；时间、迭代上限与独立验收仍生效。':'Submitting starts the run. Time and iteration limits and independent acceptance checks still apply.',
     '开始、直接续算、改设置续算、重新计算均使用输入的上限；暂停时间不计入。应用到当前不会重启或清零计时；若新上限小于已用时间，计算会在下一次检查时结束。迭代上限仍有效。':'The entered limit applies to new runs, continuations, adjusted continuations, and restarts. Paused time is excluded. Applying it to the current run does not restart the solver or reset elapsed time. If the limit is below elapsed time, the next check ends the run. The iteration limit remains active.',
     '开关即时生效，后续开始与续算沿用；网页关闭后监控仍运行，本地服务需保持开启。自动停止表示稳定性条件达标，保存流场仍需最终验收。':'This setting takes effect immediately and is retained for subsequent runs and continuations. Monitoring continues with the page closed while the local service is running. An automatic stop indicates that stability criteria were met; the saved field still requires final acceptance.',
@@ -224,6 +226,17 @@
   const rule = (pattern, translation) => rules.push([pattern, translation]);
   const known = text => exact.get(text) || text;
   const field = text => known(text);
+  rule(/^(原 30P30N|SF 试算|CFD 计算) · (.+?) · 实时迭代$/, (_,kind,model)=>`${known(kind)} · ${model} · Live Iteration`);
+  rule(/^原 30P30N · 原始 L([1-5]) 网格$/, (_,level)=>`Original 30P30N · Original L${level} Mesh`);
+  rule(/^采用公开 30P30N 原始 L([1-5]) 网格，几何未改。$/, (_,level)=>`Uses the public original 30P30N L${level} mesh with unchanged geometry.`);
+  rule(/^参考采用 (.+?)，当前采用 (.+?)；属于跨湍流模型对照，不表示同模型验证。$/, (_,reference,current)=>`The reference uses ${reference}; the current run uses ${current}. This comparison uses different turbulence models and does not establish validation for the current model.`);
+  rule(/^跨湍流模型参考：(.+?)；当前为 (.+?)，此对照不表示同模型验证。$/, (_,reference,current)=>`Reference model: ${reference}; current model: ${current}. This comparison does not establish validation for the current turbulence model.`);
+  rule(/^上图为 (.+?) 参考，下图为 (.+?)；此对照不表示同模型验证。$/, (_,reference,current)=>`Top: ${reference} reference; bottom: ${current}. This comparison does not establish validation for the current turbulence model.`);
+  rule(/^上图 · 原 30P30N · (.+?) 参考$/, (_,model)=>`Top · Original 30P30N · ${model} Reference`);
+  rule(/^下图 · (所选计算|当前模型) · SST · 最新已保存流场$/, (_,kind)=>`Bottom · ${kind==='所选计算'?'Selected Run':'Current Model'} · SST · Latest Saved Field`);
+  rule(/^原 30P30N (.+?) 已验收二阶 (.+?) 流场，与当前流场同步缩放和平移$/, (_,model,f)=>`Accepted second-order ${field(f)} field for original 30P30N (${model}); navigation is synchronized with the current field`);
+  rule(/^当前 (.+?) 模型的 (.+?) 流场，与原始流场同步缩放和平移$/, (_,model,f)=>`${field(f)} field for the current ${model} model; navigation is synchronized with the reference field`);
+  rule(/^250 \/ 1250 步窗口均满足 ΔCL ≤ (.+?)、ΔCD ≤ (.+?)；密度 \/ k \/ ω 的 log₁₀ 残差均 ≤ (.+?) \/ (.+?) \/ (.+?)。触发前核对最新完整检查点的同一组条件。$/, (_,cl,cd,rho,k,w)=>`Both 250 / 1250-iteration windows must satisfy ΔCL ≤ ${cl} and ΔCD ≤ ${cd}; the density / k / ω log₁₀ residuals must be ≤ ${rho} / ${k} / ${w}. The same criteria are checked against the latest complete checkpoint before stopping.`);
   rule(/^当前实际计算格式：([^。]+)。$/, (_,order)=>`Current discretization: ${known(order)}.`);
   rule(/^(\d+)分 (\d+)秒$/, (_,m,s)=>`${m}m ${s}s`);
   rule(/^最近 ([\d,]+) 步$/, (_,n)=>`Recent ${n}`);
@@ -323,6 +336,8 @@
   // The stability criteria are dynamically filled and then typeset as math.
   exact.set('250 / 1250 步窗口均满足','Both 250 / 1250-iteration windows must satisfy');
   rule(/^；密度与湍流变量的$/,()=>'; the density and turbulence');
+  rule(/^；密度 \/ k \/ ω 的$/,()=>'; the density / k / ω');
+  rule(/^(.+?)；密度 \/ k \/ ω 的$/,(_,value)=>`${value}; the density / k / ω`);
   rule(/^(.+?)；密度与湍流变量的$/,(_,value)=>`${value}; the density and turbulence`);
   rule(/^残差均 ≤ (.+?) \/ (.+?)。触发前核对最新完整检查点的同一组条件。$/,(_,rho,nu)=>`residuals must be ≤ ${rho} / ${nu}. The same criteria are checked against the latest complete checkpoint before stopping.`);
   rule(/^色标下限不得小于 (.+?)，且上限必须大于下限。$/,(_,n)=>`color minimum must be at least ${n}, and the maximum must be greater than the minimum.`);

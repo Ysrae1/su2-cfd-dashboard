@@ -2,7 +2,7 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<script src="./showcase-adapter.js?v=e306c4c480be8b8c"></script>
+<script src="./showcase-adapter.js?v=fd65f82a49901076"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
 <title>SF 试算 · 只读展示快照</title>
 <!-- KaTeX 0.19.0 (MIT), pinned local distribution from https://registry.npmjs.org/katex/0.19.0; https://katex.org/docs/browser.html -->
@@ -126,7 +126,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
 </style>
 <script src="./continuous-corners.js?v=20261008-single-surface-4" defer></script>
 <script src="./rolling-ranges.js"></script>
-<script src="./dashboard-i18n.js?v=20261008-6" defer></script>
+<script src="./dashboard-i18n.js?v=20261008-7" defer></script>
 <style>
 .continuation-settings,.runtime-settings{display:none!important}.dashboard-layout:has(.showcase-banner:not([hidden])){padding-top:16px}.showcase-banner{position:relative;isolation:isolate;margin:0 0 18px;padding:12px 44px 12px 16px;border-radius:var(--apple-panel-radius);background:var(--surface-material);color:var(--muted);box-shadow:none;filter:drop-shadow(0 3px 7.5px var(--floating-shadow-color))}.showcase-banner[hidden]{display:none!important}.showcase-banner>.showcase-dismiss{position:absolute!important;top:8px;right:8px;width:24px;height:24px;padding:0;display:grid;place-items:center;border:0;border-radius:6px;background:none!important;background-image:none!important;color:var(--muted);box-shadow:none!important;filter:none!important;cursor:pointer}.showcase-dismiss::before{content:none!important}.showcase-dismiss:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.showcase-dismiss:hover{color:var(--fg)}</style>
 </head>
@@ -160,14 +160,14 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   <div class="charts">
     <section class="plot"><div class="plot-title"><h3>升力系数 CL</h3><span id="cl" class="mono">—</span></div><svg id="liftPlot" class="chart" role="img" aria-label="升力系数随迭代步数变化"></svg></section>
     <section class="plot"><div class="plot-title"><h3>阻力系数 CD</h3><span id="cd" class="mono">—</span></div><svg id="dragPlot" class="chart" role="img" aria-label="阻力系数随迭代步数变化"></svg></section>
-    <section class="plot wide"><div class="plot-title"><h3>残差（log₁₀）</h3><div class="legend"><span><i class="swatch" style="background:var(--blue)"></i>密度</span><span><i class="swatch" style="background:var(--orange)"></i>湍流变量</span></div></div><svg id="resPlot" class="chart" role="img" aria-label="密度与湍流残差随迭代步数变化"></svg></section>
+    <section class="plot wide"><div class="plot-title"><h3>残差（log₁₀）</h3><div id="residualLegend" class="legend"><span><i class="swatch" style="background:var(--blue)"></i>密度</span><span><i class="swatch" style="background:var(--orange)"></i>湍流变量</span></div></div><svg id="resPlot" class="chart" role="img" aria-label="密度与湍流残差随迭代步数变化"></svg></section>
 
   </div>
   </section>
   <section id="flowSection" class="page-section flow" aria-labelledby="flowHeading">
     <div class="flow-heading"><h2 id="flowHeading">流场对照</h2><span class="muted" aria-hidden="true">·</span><select id="flowField" aria-label="流场绘图参数" disabled><option value="mach">Mach</option></select><span id="flowScaleLabel" class="small muted">共同色标 0–0.5</span></div>
     <div class="flow-summary" aria-label="上下流场说明">
-      <div><h3>上图 · 原 30P30N · 已验收二阶流场</h3><div id="baselineFlowMeta" class="flow-meta small muted mono">等待原始构型流场记录</div><div id="baselineFlowViewerStatus" class="small muted" role="status"></div><div id="baselineFlowInterpretation" class="small muted"></div><div id="baselineFlowPlaceholder" class="flow-placeholder small muted" role="status">正在加载原 30P30N 的已保存流场…</div></div>
+      <div><h3 id="baselineFlowTitle">上图 · 原 30P30N · 已验收二阶流场</h3><div id="baselineFlowMeta" class="flow-meta small muted mono">等待原始构型流场记录</div><div id="baselineFlowViewerStatus" class="small muted" role="status"></div><div id="baselineFlowInterpretation" class="small muted"></div><div id="baselineFlowPlaceholder" class="flow-placeholder small muted" role="status">正在加载原 30P30N 的已保存流场…</div></div>
       <div><h3 id="currentFlowTitle">下图 · 当前模型 · 最新已保存流场</h3><div id="flowMeta" class="flow-meta small muted mono">等待已保存流场记录</div><div id="flowViewerStatus" class="small muted" role="status"></div><div id="flowInterpretation" class="small muted"></div><div id="flowPlaceholder" class="flow-placeholder small muted" role="status">等待已保存流场，或正在渲染最新快照…</div></div>
     </div>
     <p id="flowComparisonNote" class="small muted">两图使用相同米制视角与共同 Mach 色标。当前模型每 1000 步保存快照，非逐步动画；其未收敛诊断场不能作为已收敛的气动结果。</p>
@@ -303,15 +303,45 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     return kept;
   }
   function selectedHistoryRows(){return visibleHistoryRows(data?.series||[],hiddenStages);}
+  const plotColors=['var(--blue)','var(--orange)','var(--green)'];
+  function residualFields(){return data?.residual_fields?.length?data.residual_fields:[{key:'rho',label:'密度'},{key:'nu',label:'湍流变量'}];}
+  function residualThresholds(fields){
+    const groups=new Map(),symbols={rho:'ρ',nu:'ν̃',k:'k',w:'ω'};
+    for(const field of fields){
+      if(!finite(field.target))continue;
+      if(!groups.has(field.target))groups.set(field.target,{value:field.target,fields:[]});
+      groups.get(field.target).fields.push(field.key);
+    }
+    return [...groups.values()].map(group=>({...group,label:`门槛 ${group.value}${groups.size>1?` · ${group.fields.map(key=>symbols[key]||key).join(' / ')}`:''}`}));
+  }
+  function renderResidualLegend(fields){
+    const legend=$('residualLegend'),key=JSON.stringify(fields.map(field=>[field.key,field.label]));
+    if(legend.dataset.fields===key)return;legend.dataset.fields=key;legend.replaceChildren();
+    for(const [index,field] of fields.entries()){
+      const item=document.createElement('span'),swatch=document.createElement('i');swatch.className='swatch';swatch.style.background=plotColors[index];item.append(swatch);
+      if(['k','w','nu'].includes(field.key)&&field.label!== '湍流变量'){
+        item.append(document.createTextNode(field.key==='nu'?'SA ':'SST '));
+        const symbol=document.createElement('span');symbol.className='dashboard-math';symbol.dataset.latex={k:'k',w:'\\omega',nu:'\\tilde{\\nu}'}[field.key];
+        if(window.katex)window.katex.render(symbol.dataset.latex,symbol,{throwOnError:false,output:'htmlAndMathml'});else symbol.textContent=field.label.split(' ').at(-1);
+        item.append(symbol);
+      }else item.append(document.createTextNode(field.label));
+      legend.append(item);
+    }
+  }
   function plot(id,fields,label,options={}){
     const svg=$(id),w=svg.clientWidth,h=svg.clientHeight;svg.replaceChildren();svg.setAttribute('viewBox',`0 0 ${w} ${h}`);
     const allRows=options.rows||selectedHistoryRows(),window=plotWindows[options.window||'iteration'],rows=window.scope==='recent'?allRows.slice(-window.count):allRows;
     svg.dataset.windowScope=window.scope;svg.dataset.windowCount=String(rows.length);svg.dataset.windowStart=String(rows.at(0)?.iteration??'');svg.dataset.windowEnd=String(rows.at(-1)?.iteration??'');
     if(finite(options.threshold)){svg.dataset.target=String(options.threshold);svg.dataset.latest250=String(allRows.at(-1)?.[fields[0]]??'');svg.dataset.latest1250=String(allRows.at(-1)?.[fields[1]]??'');}
+    const references=(options.thresholds||[]).filter(reference=>finite(reference.value));
+    svg.dataset.thresholds=JSON.stringify(references.map(({value,fields})=>({value,fields})));
+    if(references.length===1)svg.dataset.target=String(references[0].value);
+    else if(!finite(options.threshold))delete svg.dataset.target;
     if(rows.length<2){svg.append(node('text',{x:w/2,y:h/2,'text-anchor':'middle'},'等待更多迭代数据'));return;}
     const left=76,right=14,top=26,bottom=43;
     const xs=rows.map(d=>d.iteration).filter(finite),ys=rows.flatMap(d=>fields.map(f=>d[f])).filter(finite);
     if(finite(options.threshold))ys.push(options.threshold);
+    ys.push(...references.map(reference=>reference.value));
     if(!xs.length||!ys.length)return;
     let x0=xs.reduce((a,b)=>Math.min(a,b),Infinity),x1=xs.reduce((a,b)=>Math.max(a,b),-Infinity),y0=ys.reduce((a,b)=>Math.min(a,b),Infinity),y1=ys.reduce((a,b)=>Math.max(a,b),-Infinity);
     let zeroFloor;
@@ -337,9 +367,15 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       if(coefficient[3])axisTitle.append(node('tspan',{},coefficient[3]));
     }else axisTitle.textContent=label;
     svg.append(axisTitle);
-    fields.forEach((f,j)=>{let previousValid=false;const d=rows.map(r=>{if(!finite(r[f])||!finite(r.iteration)){previousValid=false;return '';}const command=!previousValid||r.break_before===true?'M':'L';previousValid=true;return `${command}${sx(r.iteration).toFixed(2)},${sy(r[f]).toFixed(2)}`;}).join(' ');svg.append(node('path',{d,class:'curve',stroke:j?'var(--orange)':'var(--blue)'}));});
-    if(options.logarithmic)fields.forEach((f,j)=>rows.filter(r=>r[f]===0&&finite(r.iteration)).forEach(r=>svg.append(node('circle',{cx:sx(r.iteration),cy:sy(0),r:2,fill:'var(--bg)',stroke:j?'var(--orange)':'var(--blue)'}))));
+    fields.forEach((f,j)=>{let previousValid=false;const d=rows.map(r=>{if(!finite(r[f])||!finite(r.iteration)){previousValid=false;return '';}const command=!previousValid||r.break_before===true?'M':'L';previousValid=true;return `${command}${sx(r.iteration).toFixed(2)},${sy(r[f]).toFixed(2)}`;}).join(' ');svg.append(node('path',{d,class:'curve',stroke:plotColors[j]}));});
+    if(options.logarithmic)fields.forEach((f,j)=>rows.filter(r=>r[f]===0&&finite(r.iteration)).forEach(r=>svg.append(node('circle',{cx:sx(r.iteration),cy:sy(0),r:2,fill:'var(--bg)',stroke:plotColors[j]}))));
     if(finite(options.threshold)){const y=sy(options.threshold);svg.append(node('line',{x1:left,x2:w-right,y1:y,y2:y,stroke:'var(--red)','stroke-width':1.4,'stroke-dasharray':'5 4',class:'threshold-line'}));svg.append(node('text',{x:w-right-5,y:y-6,'text-anchor':'end',style:'fill:var(--red)'},`门槛 ${options.threshold.toExponential(1)}`));}
+    for(const reference of references){
+      const y=sy(reference.value),group=node('g',{'data-threshold':reference.value,'data-fields':reference.fields.join(',')});
+      group.append(node('line',{x1:left,x2:w-right,y1:y,y2:y,stroke:'var(--red)','stroke-dasharray':'5 4',class:'threshold-line'}),
+        node('text',{x:w-right-5,y:y-6,'text-anchor':'end',style:'fill:var(--red)',class:'threshold-label'},reference.label));
+      svg.append(group);
+    }
     const checkpointMarkers=[];
     rows.filter(r=>r.break_before===true&&finite(r.iteration)).forEach((point,i)=>{
       const x=sx(point.iteration),segment=(data.history_segments || []).find(s=>s.run===point.run)||(data.history_segments || []).find(s=>s.offset===point.iteration);
@@ -374,7 +410,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     const guide=node('line',{x1:0,x2:0,y1:top,y2:h-bottom,class:'guide',visibility:'hidden'});svg.append(guide);
     const hoverPoints=fields.map((field,index)=>{
       const location=node('g',{class:'hover-location',visibility:'hidden','data-field':field});
-      const circle=node('circle',{cx:0,cy:0,r:3.5,class:'hover-point',stroke:index?'var(--orange)':'var(--blue)'});
+      const circle=node('circle',{cx:0,cy:0,r:3.5,class:'hover-point',stroke:plotColors[index]});
       location.append(circle);svg.append(location);return {field,location,circle};
     });
     const hit=node('rect',{x:left,y:top,width:w-left-right,height:h-top-bottom,class:'hit'});svg.append(hit);
@@ -402,7 +438,8 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   }
   let rangeData=null,rangeRows=[];
   function draw(){
-    renderPlotWindows();plot('liftPlot',['CL'],'CL');plot('dragPlot',['CD'],'CD');plot('resPlot',['rho','nu'],'log₁₀ 残差');
+    const residuals=residualFields();renderResidualLegend(residuals);
+    renderPlotWindows();plot('liftPlot',['CL'],'CL');plot('dragPlot',['CD'],'CD');plot('resPlot',residuals.map(field=>field.key),'log₁₀ 残差',{thresholds:residualThresholds(residuals),labels:Object.fromEntries(residuals.map(field=>[field.key,field.label]))});
     if(rangeData!==data){rangeRows=window.dashboardRollingRanges(selectedHistoryRows());rangeData=data;}
     const options={rows:rangeRows,logarithmic:true,scientific:true,window:'stability'};
     plot('liftRangePlot',['CL_range_250','CL_range_1250'],'ΔCL（对数刻度）',{...options,threshold:.0005,labels:{CL_range_250:'250 步峰峰变化',CL_range_1250:'1250 步峰峰变化'}});
@@ -594,8 +631,10 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     $('flowColorbar').setAttribute('aria-label',`${fieldLabel} 共同色标${unit?`，${unit}`:''}`);
     $('flowComparisonNote').textContent=`两图使用相同米制视角与共同 ${fieldLabel} 色标。当前模型每 1000 步保存快照，非逐步动画；保存场仍需按验收记录判断可否作为气动结果。`;
     for(const side of ['Min','Max'])for(const type of ['Slider','Number'])$(`flow${side}${type}`).setAttribute('aria-label',`${fieldLabel} 色标${side==='Min'?'下限':'上限'}${type==='Slider'?'滑块':'数值'}`);
-    $('baselineFlowCanvas').setAttribute('aria-label',`原 30P30N 已验收二阶 ${fieldLabel} 流场，与当前流场同步缩放和平移`);
-    $('flowCanvas').setAttribute('aria-label',`当前模型的 ${fieldLabel} 流场，与原始流场同步缩放和平移`);
+    const referenceModel=data?.comparison?.baseline?.turbulence_label||'SA-noft2',currentModel=data?.turbulence_label||referenceModel;
+    if(data?.comparison?.model?.same_turbulence_model===false)$('flowComparisonNote').textContent+=` 上图为 ${referenceModel} 参考，下图为 ${currentModel}；此对照不表示同模型验证。`;
+    $('baselineFlowCanvas').setAttribute('aria-label',`原 30P30N ${referenceModel} 已验收二阶 ${fieldLabel} 流场，与当前流场同步缩放和平移`);
+    $('flowCanvas').setAttribute('aria-label',`当前 ${currentModel} 模型的 ${fieldLabel} 流场，与原始流场同步缩放和平移`);
   }
   function flowAbsoluteMin(){return ['mach','velocity'].includes(flowField)?0:null;}
   function updateSliderDomain(){
@@ -755,7 +794,8 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     $('runtimeSummary').textContent=`默认上限 ${duration(c.default_timeout_seconds)} · 当前算例上限 ${duration(limit)}`+(['running','paused'].includes(c.state)&&c.supports_live_time_limit!==true?'。当前算例在功能更新前启动，时间修改从下一次计算生效。':'。');
     const stability=c.stability_stop||{},check=stability.check||{},criteria=stability.criteria||{},toggle=$('stabilityStopToggle');
     toggle.disabled=controlBusy||!controlAllowed(c,'set_stability_stop','can_set_stability_stop');toggle.setAttribute('aria-pressed',String(stability.enabled===true));toggle.textContent=stability.enabled?'关闭稳定性自动停止':'开启稳定性自动停止';
-    $('stabilityStopCriteria').textContent=finite(criteria.CL_range)&&finite(criteria.CD_range)?`250 / 1250 步窗口均满足 ΔCL ≤ ${criteria.CL_range}、ΔCD ≤ ${criteria.CD_range}；密度与湍流变量的 log₁₀ 残差均 ≤ ${criteria.rho} / ${criteria.nu}。触发前核对最新完整检查点的同一组条件。`:'';
+    const residualCriteria=data?.turbulence_model==='SST'?`密度 / k / ω 的 log₁₀ 残差均 ≤ ${criteria.rho??-8} / ${criteria.k??-8} / ${criteria.w??-8}`:`密度与湍流变量的 log₁₀ 残差均 ≤ ${criteria.rho} / ${criteria.nu}`;
+    $('stabilityStopCriteria').textContent=finite(criteria.CL_range)&&finite(criteria.CD_range)?`250 / 1250 步窗口均满足 ΔCL ≤ ${criteria.CL_range}、ΔCD ≤ ${criteria.CD_range}；${residualCriteria}。触发前核对最新完整检查点的同一组条件。`:'';
     window.renderInlineMath?.($('stabilityStopCriteria'));
     $('stabilityStopState').textContent=stability.monitor_error?`监控异常：${stability.monitor_error}`:!stability.enabled?'已关闭':stability.last_trigger?.run===c.current_run?'已按稳定性条件自动停止':c.state==='finished'?'已开启；当前计算已结束，后续计算沿用':c.state==='paused'?'已开启；用户暂停期间不触发':check.passed?'当前迭代指标全部达标':'已开启；等待峰峰变化与残差达标';
     $('stabilityStopState').className=`small ${stability.monitor_error?'error':stability.enabled?'pass':'muted'}`;
@@ -833,17 +873,24 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     const c=baseline.conditions||{};
     const number=key=>{const value=Number(c[key]);return c[key]!==undefined&&c[key]!==null&&Number.isFinite(value)?value:null;};
     const mach=number('MACH_NUMBER'),re=number('REYNOLDS_NUMBER'),aoa=number('AOA'),chord=number('REF_LENGTH');
-    $('baselineConditions').textContent=baseline.available?`参考工况：Ma ${fmt(mach,2)} · Re ${finite(re)?re.toExponential(2):'—'} · 迎角 ${fmt(aoa,1)}° · 参考弦长 ${fmt(chord,4)} m · SA-noft2。`:'参考计算记录尚不可用。';
+    $('baselineConditions').textContent=baseline.available?`参考工况：Ma ${fmt(mach,2)} · Re ${finite(re)?re.toExponential(2):'—'} · 迎角 ${fmt(aoa,1)}° · 参考弦长 ${fmt(chord,4)} m · ${baseline.turbulence_label||'SA-noft2'}。`:'参考计算记录尚不可用。';
     $('baselineSource').textContent=baseline.available?'来源：本项目原始 L3 网格的已验收二阶 CFD 计算；这些不是实验值或翼型通用常数。':'';
-    $('comparisonNote').textContent=(model.same_operating_conditions?'当前与参考的工况、物理模型及系数归一化一致。':'当前与参考的工况或物理模型未确认一致。')+(model.flow_order==='一阶诊断'?'当前是一阶诊断，系数差异包含离散格式的影响。':d.numerical_stability?.passed===true?'数值稳定性条件已达标；气动比较的物理验证状态见验收记录。':'当前是二阶续算，仍需检查数值稳定性与保存流场后再比较气动结果。');
+    const continuation=model.initialization==='restart'||(model.initialization===undefined&&d.history_segments?.at(-1)?.parent_run);
+    $('comparisonNote').textContent=(model.same_operating_conditions?'当前与参考的工况、物理模型及系数归一化一致。':'当前与参考的工况或物理模型未确认一致。')+(model.flow_order==='一阶诊断'?'当前是一阶诊断，系数差异包含离散格式的影响。':d.numerical_stability?.passed===true?'数值稳定性条件已达标；气动比较的物理验证状态见验收记录。':continuation?'当前是二阶续算，仍需检查数值稳定性与保存流场后再比较气动结果。':'当前是二阶冷启动，仍需检查数值稳定性与保存流场后再比较气动结果。');
+    if(model.same_turbulence_model===false)$('comparisonNote').textContent=`参考采用 ${baseline.turbulence_label}，当前采用 ${model.turbulence_label}；属于跨湍流模型对照，不表示同模型验证。`+$('comparisonNote').textContent;
+    $('baselineFlowTitle').textContent=model.same_turbulence_model===false?`上图 · 原 30P30N · ${baseline.turbulence_label} 参考`:'上图 · 原 30P30N · 已验收二阶流场';
     $('modelChangesTitle').textContent=model.label||'当前模型的改动';
     const changes=JSON.stringify(model.changes||[]);
     if($('modelChanges').dataset.contents!==changes){$('modelChanges').replaceChildren();for(const text of model.changes||[]){const li=document.createElement('li');li.textContent=text;$('modelChanges').append(li);}$('modelChanges').dataset.contents=changes;}
-    $('modelCalculation').textContent=`当前实际计算格式：${model.flow_order||'读取中'}。`+(model.geometry_known===true?'弯度与厚度参数按局部后翼片弦长归一化；平移按整机参考弦长归一化。':'');
+    $('modelCalculation').textContent=`当前实际计算格式：${model.flow_order||'读取中'}。`+(model.geometry_kind==='modified_sf'||model.parameters?'弯度与厚度参数按局部后翼片弦长归一化；平移按整机参考弦长归一化。':'');
   }
   function render(){
     const d=data,c=d.current || {};
     window.showcaseApplyTaskTitle(d);
+    if(!window.DASHBOARD_SHOWCASE){
+      const model=d.comparison?.model,kind=model?.geometry_kind==='original'?'原 30P30N':model?.geometry_kind==='modified_sf'?'SF 试算':'CFD 计算';
+      const title=[kind,d.turbulence_label,'实时迭代'].filter(Boolean).join(' · ');document.querySelector('.title-row h1').textContent=title;document.title=title;
+    }
     renderRecentTasks(d);
     renderTaskTimeline(d);
     renderControl(d.control);
@@ -851,7 +898,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     renderComparison(d);
     const controls=(d.controls || []).filter(control=>control.value!==null&&control.value!==undefined).map(control=>`${control.label} ${control.value}`);
     const firstOrder=(d.controls || []).some(control=>control.name==='first_order_flow'&&control.value==='一阶诊断');
-    setCaseText($('runDetails'),[d.run || '等待算例记录',...controls].join(' · '));
+    setCaseText($('runDetails'),[d.run || '等待算例记录',d.turbulence_label,...controls].filter(Boolean).join(' · '));
     $('iteration').textContent=finite(c.iteration)?c.iteration.toLocaleString():'—';$('elapsed').textContent=duration(d.elapsed_seconds);
     $('remaining').textContent=d.ended?`已停止 · 试算上限 ${duration(d.timeout_seconds)}`:`剩余时间上限 ${duration(d.remaining_seconds)}`;
     const pct=finite(d.elapsed_seconds)&&d.timeout_seconds?Math.min(100,Math.max(0,100*d.elapsed_seconds/d.timeout_seconds)):0;
@@ -881,7 +928,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     }
     $('updated').textContent=`快照于 ${new Date(d.last_updated_utc).toLocaleString('zh-CN',{hour12:false,timeZone:'Asia/Shanghai'})}`;
     baselineFlowDisplay.render(d.baseline_flow_snapshot);
-    $('currentFlowTitle').textContent=d.control?.view_only?'下图 · 所选计算 · 最新已保存流场':'下图 · 当前模型 · 最新已保存流场';
+    $('currentFlowTitle').textContent=(d.control?.view_only?'下图 · 所选计算':'下图 · 当前模型')+(d.turbulence_model==='SST'?' · SST':'')+' · 最新已保存流场';
     currentFlowDisplay.render(d.flow_snapshot);
     draw();
   }
@@ -923,7 +970,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       $('recentRuns').replaceChildren();
       for(const run of runs){
         const button=document.createElement('button');button.type='button';button.dataset.run=run.run;button.dataset.members=JSON.stringify(run.runs||[run.run]);
-        const name=document.createElement('span');name.className='task-name';const kind=run.showcase_label || (/^feas_sf/i.test(run.run)?'SF 试算':/^feas_l/i.test(run.run)?'原 30P30N':/^(?:feas_)?ds/i.test(run.run)?'DS 试算':'计算任务');name.textContent=[kind,run.flow_order,`${run.segment_count||run.runs?.length||1} 段`].filter(Boolean).join(' · ');button.title=(run.runs||[run.run]).join('\n');button.setAttribute('aria-label',`${name.textContent}，${run.run}`);
+        const name=document.createElement('span');name.className='task-name';const kind=run.showcase_label || (/^feas_sf/i.test(run.run)?'SF 试算':/^feas_l/i.test(run.run)?'原 30P30N':/^(?:feas_)?ds/i.test(run.run)?'DS 试算':'计算任务');name.textContent=[kind,run.turbulence_model==='SST'?'SST':null,run.flow_order,`${run.segment_count||run.runs?.length||1} 段`].filter(Boolean).join(' · ');button.title=(run.runs||[run.run]).join('\n');button.setAttribute('aria-label',`${name.textContent}，${run.run}`);
         const detail=document.createElement('span');detail.className='task-detail';
         const labels={running:'计算中',paused:'已暂停',finished:'已结束',interrupted:'已停止',timeout:'超时结束',numerical_divergence:'数值发散',waiting:'待开始',starting:'启动中'};
         const date=new Date(run.started_utc),stamp=Number.isNaN(date.getTime())?'':date.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
