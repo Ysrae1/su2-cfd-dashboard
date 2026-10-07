@@ -1,5 +1,5 @@
 /* One SVG contour for every browser, including Safari without corner-shape.
- * Version 2026-10-08-single-surface-3: one translucent fill per surface.
+ * Version 2026-10-08-single-surface-4: one translucent fill per surface.
  */
 (() => {
   'use strict';
@@ -379,7 +379,7 @@
           record.shadowFilter.setAttribute('width', number(width + 64));
           record.shadowFilter.setAttribute('height', number(height + 64));
           record.outline.setAttribute('d', continuousPath(width, height, record.radius, 0.35));
-          record.outline.setAttribute('stroke', theme.line);
+          record.outline.setAttribute('stroke', 'none');
         }
         return;
       }
