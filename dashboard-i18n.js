@@ -13,7 +13,29 @@
     '返回最新节点':'Latest Node', '开题前的可行性验证':'Pre-proposal Feasibility',
     '计算历程':'Run History', '计算控制':'Run Controls',
     '计算设置与概览':'Settings & Overview', '通用运行设置':'Runtime Settings',
-    '关键参数迭代':'Convergence', '流场对照':'Flow Comparison',
+    '关键参数迭代':'Convergence', '流场对照':'Flow Comparison', '仅网格':'Mesh only',
+    '网格对照':'Mesh Comparison', 'DS · 网格准备':'DS · Mesh Preparation',
+    '失败案例':'Failed Cases', '初始网格':'Initial Mesh', '网格修订':'Mesh Revision',
+    '生成网格':'Mesh Generation', '网格变形':'Mesh Deformation', '网格细化':'Mesh Refinement', '网格对应计算':'CFD', '展开流程历程':'Expand workflow', '收起流程历程':'Collapse workflow',
+    '静态检查通过':'Static checks passed', '静态检查未通过':'Static checks failed',
+    '静态检查记录待核对':'Static checks not recorded', '收起网格修订':'Collapse mesh revisions', '展开网格修订':'Expand mesh revisions',
+    '网格修订原始记录保留；仅可隐藏或恢复本浏览器显示。':'Mesh revision records are preserved. Hide or show them in this browser only.',
+    'CFD 工作台 · 读取中':'CFD Workbench · Loading', 'DS · 气动计算':'DS · CFD Runs',
+    'SF · 气动计算':'SF · CFD Runs', '30P30N · 基准与诊断':'30P30N · Baselines & Diagnostics',
+    'DS · 方向过渡版 · 网格预览':'DS · Directional Transition · Mesh Preview',
+    '下图 · DS · 方向过渡版（当前最新有效网格）':'Bottom · DS · Directional Transition (latest valid mesh)',
+    '仅网格，尚未求解':'Mesh only, no solution yet', '仅网格 · 未求解':'Mesh only · Not solved',
+    '仅网格预览 · 未启动气动计算':'Mesh preview · CFD has not started',
+    '仅网格预览；计算控制不可用。':'Mesh preview only. Run controls are unavailable.',
+    '未启动 CFD，无流场、残差或气动力结果。':'CFD has not started. There are no flow fields, residuals, or aerodynamic force results.',
+    '仅导入原始网格供查看；未启动 CFD，无流场、残差或气动力结果。':'The original mesh was imported for inspection only. CFD has not started; no flow fields, residuals, or aerodynamic force results exist.',
+    '上图 · 原 30P30N · 保存网格':'Top · Original 30P30N · Saved Mesh',
+    '原 30P30N 参考网格；此视图仅显示原始单元边。':'Original 30P30N reference mesh. This view shows only the original cell edges.',
+    '两图使用相同米制视角，显示各自保存快照中的原始单元边；四边形不添加对角线。':'Both views share the same coordinates in metres and show the original cell edges from their saved snapshots. Quadrilaterals have no added diagonals.',
+    '仅显示原始单元边；四边形不添加对角线。':'Original cell edges only. Quadrilaterals have no added diagonals.',
+    '此旧快照未包含原始单元边，无法显示仅网格。':'This older snapshot has no original cell edges for Mesh only mode.',
+    '原 30P30N 保存网格，与当前网格同步缩放和平移':'Saved original 30P30N mesh; navigation is synchronized with the current mesh',
+    '当前模型保存网格，与原始网格同步缩放和平移':'Saved current model mesh; navigation is synchronized with the original mesh',
     '计算稳定性检查':'Stability', '当前计算的观察窗口':'Current Run Windows',
     '开始':'Start', '暂停':'Pause', '恢复':'Resume', '直接续算':'Continue',
     '改设置续算':'Adjust & Continue', '重新计算':'Restart', '续算':'Continue',
@@ -30,6 +52,9 @@
     'CFL 上限':'CFL Limit', '计算格式':'Discretization', '流动重构阶数':'Flow Reconstruction',
     '空间离散':'Spatial Discretization', '流动更新松弛系数':'Flow Relaxation',
     '线性求解容差':'Linear Solver Tolerance', '线性迭代上限':'Linear Iteration Limit', '梯度方法':'Gradient Method',
+    '来流湍流强度':'Inflow Turbulence Intensity', '来流湍流／分子黏度比':'Inflow Eddy Viscosity Ratio',
+    '马赫数':'Mach Number', '雷诺数':'Reynolds Number', '迎角':'Angle of Attack', '来流温度':'Freestream Temperature',
+    '设置变化：':'Setting Changes:', '设置沿用':'Settings Unchanged',
     '一阶诊断':'First Order', '一阶':'First Order',
     '二阶':'Second Order', '原二阶':'Original Second Order',
     '原生自动停止':'Native Auto-stop', 'SU2 原生停止判据':'SU2 Native Stopping Rule',
@@ -156,8 +181,8 @@
     '网格由原始 L3 网格经弹性变形得到，保留原节点与单元拓扑。':'The mesh was elastically deformed from the original L3 mesh, preserving its nodes and element topology.',
     '当前网格未匹配已记录的 SF 改动，暂不标注几何参数。':'The current mesh does not match the recorded SF modification; geometry parameters are not reported.',
     '当前网格的几何来源未匹配已记录的原始或改动模型，暂不标注几何参数。':'The mesh does not match a recorded original or modified geometry; geometry parameters are not reported.',
-    '提交后开始计算；时间、迭代上限与独立验收仍生效。':'Submitting starts the run. Time and iteration limits and independent acceptance checks still apply.',
-    '开始、直接续算、改设置续算、重新计算均使用输入的上限；暂停时间不计入。应用到当前不会重启或清零计时；若新上限小于已用时间，计算会在下一次检查时结束。迭代上限仍有效。':'The entered limit applies to new runs, continuations, adjusted continuations, and restarts. Paused time is excluded. Applying it to the current run does not restart the solver or reset elapsed time. If the limit is below elapsed time, the next check ends the run. The iteration limit remains active.',
+    '提交后开始计算；当前停止规则、资源保护与独立验收仍生效。':'Submitting starts the run. Current stopping rules, resource guards and independent acceptance checks still apply.',
+    '开始、直接续算、改设置续算、重新计算均使用输入的上限；暂停时间不计入。应用到当前不会重启或清零计时；若新上限小于已用时间，计算会在下一次检查时结束。当前停止规则、资源保护与独立验收仍生效。':'The entered limit applies to new runs, continuations, adjusted continuations, and restarts. Paused time is excluded. Applying it to the current run does not restart the solver or reset elapsed time. If the limit is below elapsed time, the next check ends the run. Current stopping rules, resource guards and independent acceptance checks still apply.',
     '开关即时生效，后续开始与续算沿用；网页关闭后监控仍运行，本地服务需保持开启。自动停止表示稳定性条件达标，保存流场仍需最终验收。':'This setting takes effect immediately and is retained for subsequent runs and continuations. Monitoring continues with the page closed while the local service is running. An automatic stop indicates that stability criteria were met; the saved field still requires final acceptance.',
     '同一任务的迭代历程完整保留；续算处断线，标记与顶部历程节点对应，悬停可查看设置变化。':'The complete history of this task is retained. Lines break at continuations; markers correspond to the history nodes above. Hover over a marker to inspect settings changes.',
     '两图使用相同米制视角与共同 Mach 色标。当前模型每 1000 步保存快照，非逐步动画；其未收敛诊断场不能作为已收敛的气动结果。':'Both views share the same coordinates in metres and Mach color scale. The current model saves snapshots every 1000 iterations, rather than every iteration. An unconverged diagnostic field cannot be treated as a converged aerodynamic result.',
@@ -222,10 +247,13 @@
     '。继承此节点的已保存结果与设置；提交后沿原路径追加续算阶段，原记录保留。':'. This node’s saved state and settings are inherited. Submitting adds a continuation to the existing path and retains the original records.',
     '；图表沿真实祖先路径展示，数据截至导出时刻。':'. The curves follow its actual ancestry; all data are current as of export.',
   }));
+  for (const pair of Object.entries({"SU2 CFD · 只读展示快照": "SU2 CFD · Read-only Snapshot", "SU2 CFD · 展示快照": "SU2 CFD · Saved Snapshot", "DS · 网格调整与数值收敛": "DS · Mesh Development & Numerical Convergence", "DS · 修改构型 · 网格变形与 SA 二阶": "DS · Modified Geometry · Mesh Deformation & Second-order SA", "DS · 修改构型 · 变形网格": "DS · Modified Geometry · Deformed Mesh", "DS · 修改构型 · SA 二阶": "DS · Modified Geometry · Second-order SA", "DS · 方向过渡网格": "DS · Directional Transition Mesh", "DS · 曲率布点与上缘加密": "DS · Curvature Spacing & Upper-edge Refinement", "DS · 角部平滑转向": "DS · Smooth Corner Turning", "DS · 角部斜率渐变": "DS · Gradual Corner Slopes", "DS · 后片斜率渐变网格": "DS · Rear-flap Gradual-slope Mesh", "流程失败": "Workflow Failed", "前缘几何闭合采样缺陷": "Leading-edge geometry closure sampling defect", "后续发现前缘几何闭合采样缺陷": "Leading-edge geometry closure sampling defect found later", "流程中保留了已通过的历史静态/数值稳定性检查及失败修订；后续确认前缘几何闭合采样缺陷。仅用于展示工作过程，不代表目标几何合格。": "Historical static and numerical stability checks, including failed revisions, are preserved. A leading-edge geometry closure sampling defect was subsequently confirmed. This workflow documents the process; it does not qualify the intended geometry.", "流程失败：前缘几何闭合采样缺陷": "Workflow failed: Leading-edge geometry closure sampling defect", "流程失败：前缘几何闭合采样缺陷；原数值判定保留": "Workflow failed: Leading-edge geometry closure sampling defect; original numerical assessment preserved", "流程已归档：前缘几何闭合采样缺陷；原始记录只读。": "Workflow archived: Leading-edge geometry closure sampling defect. Original records are read-only.", "该流程因前缘几何闭合采样缺陷归档。原始数值检查通过；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。": "This workflow was archived because of a leading-edge geometry closure sampling defect. The original numerical result passed its checks. Workflow failure does not change the numerical convergence assessment; this geometry is unsuitable for a valid aerodynamic comparison.", "该流程因前缘几何闭合采样缺陷归档。原始数值稳定性达标；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。": "This workflow was archived because of a leading-edge geometry closure sampling defect. The original numerical result met the stability criteria. Workflow failure does not change the numerical convergence assessment; this geometry is unsuitable for a valid aerodynamic comparison.", "该流程因前缘几何闭合采样缺陷归档。原始数值检查状态与记录保留；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。": "This workflow was archived because of a leading-edge geometry closure sampling defect. The original numerical result assessment and records are preserved. Workflow failure does not change the numerical convergence assessment; this geometry is unsuitable for a valid aerodynamic comparison.", "流程失败：后续发现前缘几何闭合采样缺陷": "Workflow failed: Leading-edge geometry closure sampling defect found later", "流程失败：后续发现前缘几何闭合采样缺陷；原数值判定保留": "Workflow failed: Leading-edge geometry closure sampling defect found later; original numerical assessment preserved", "流程已归档：后续发现前缘几何闭合采样缺陷；原始记录只读。": "Workflow archived: Leading-edge geometry closure sampling defect found later. Original records are read-only.", "该流程因后续发现前缘几何闭合采样缺陷归档。原始数值检查通过；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。": "This workflow was archived because of a leading-edge geometry closure sampling defect found later. The original numerical result passed its checks. Workflow failure does not change the numerical convergence assessment; this geometry is unsuitable for a valid aerodynamic comparison.", "该流程因后续发现前缘几何闭合采样缺陷归档。原始数值稳定性达标；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。": "This workflow was archived because of a leading-edge geometry closure sampling defect found later. The original numerical result met the stability criteria. Workflow failure does not change the numerical convergence assessment; this geometry is unsuitable for a valid aerodynamic comparison.", "该流程因后续发现前缘几何闭合采样缺陷归档。原始数值检查状态与记录保留；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。": "This workflow was archived because of a leading-edge geometry closure sampling defect found later. The original numerical result assessment and records are preserved. Workflow failure does not change the numerical convergence assessment; this geometry is unsuitable for a valid aerodynamic comparison."})) exact.set(...pair);
   const rules = [];
   const rule = (pattern, translation) => rules.push([pattern, translation]);
   const known = text => exact.get(text) || text;
   const field = text => known(text);
+  rule(/^节点 (.+) · 单元 (.+) · 原始单元边 (.+)$/,(_,points,cells,edges)=>`Nodes ${points} · Cells ${cells} · Original Edges ${edges}`);
+  rule(/^来源：(.+) · SHA-256 (.+)$/,(_,source,hash)=>`Source: ${source} · SHA-256 ${hash}`);
   rule(/^(原 30P30N|SF 试算|CFD 计算) · (.+?) · 实时迭代$/, (_,kind,model)=>`${known(kind)} · ${model} · Live Iteration`);
   rule(/^原 30P30N · 原始 L([1-5]) 网格$/, (_,level)=>`Original 30P30N · Original L${level} Mesh`);
   rule(/^采用公开 30P30N 原始 L([1-5]) 网格，几何未改。$/, (_,level)=>`Uses the public original 30P30N L${level} mesh with unchanged geometry.`);
@@ -297,7 +325,7 @@
   rule(/^(分支|续算)来源：(.+?)。继承此节点的已保存结果与设置；(提交后创建独立分支|提交后沿原路径追加续算阶段)，原记录保留。$/, (_,kind,run,action)=>`${kind==='分支'?'Branch':'Continuation'} source: ${run}. This node’s saved state and settings are inherited. Submitting ${action==='提交后创建独立分支'?'creates an independent branch':'adds a continuation to the existing path'}, retaining the original records.`);
   rule(/^(.+?) · 原生停止(开启|关闭) · (修改设置后续算|从固定初态开始)$/, (_,head,state,mode)=>`${translate(head)} · Native stop ${known(state)} · ${mode==='修改设置后续算'?'Adjusted Continuation':'Initialized from Fixed State'}`);
   rule(/^(CFL 上限|空间离散|原生自动停止|流动更新松弛系数|线性求解容差|线性迭代上限|梯度方法) (.+)$/, (_,label,value)=>`${known(label)} ${known(value)}`);
-  rule(/^(CFL 上限|流动重构阶数|原生自动停止|空间离散|流动更新松弛系数|线性求解容差|线性迭代上限|梯度方法)：(.+)$/, (_,label,value)=>`${known(label)}: ${translate(value)}`);
+  rule(/^(CFL 上限|流动重构阶数|原生自动停止|空间离散|流动更新松弛系数|线性求解容差|线性迭代上限|梯度方法|来流湍流强度|来流湍流／分子黏度比|马赫数|雷诺数|迎角|来流温度)：(.+)$/, (_,label,value)=>`${known(label)}: ${translate(value)}`);
   rule(/^(流场绘图参数|计算格式|原生自动停止)：(.+)$/, (_,label,value)=>`${known(label)}: ${known(value)}`);
   rule(/^(监控异常|控制失败|删除未完成|保护状态未更新)：(.+)$/, (_,label,error)=>`${({'监控异常':'Monitor error','控制失败':'Run action failed','删除未完成':'Archive failed','保护状态未更新':'Protection update failed'})[label]}: ${translate(error)}`);
   rule(/^操作未完成（HTTP (.+?)）$/, (_,status)=>`Action failed (HTTP ${status})`);

@@ -2,9 +2,9 @@
 <html lang="zh-CN">
 <head>
 <meta charset="utf-8">
-<script src="./showcase-adapter.js?v=fd65f82a49901076"></script>
+<script src="./showcase-adapter.js?v=d42afc5f816dde7f"></script>
 <meta name="viewport" content="width=device-width,initial-scale=1">
-<title>SF 试算 · 只读展示快照</title>
+<title>SU2 CFD · 只读展示快照</title>
 <!-- KaTeX 0.19.0 (MIT), pinned local distribution from https://registry.npmjs.org/katex/0.19.0; https://katex.org/docs/browser.html -->
 <link rel="stylesheet" href="./vendor/katex-0.19.0/katex.min.css">
 <script src="./vendor/katex-0.19.0/katex.min.js" defer></script>
@@ -127,6 +127,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
 <script src="./continuous-corners.js?v=20261008-single-surface-4" defer></script>
 <script src="./rolling-ranges.js"></script>
 <script src="./dashboard-i18n.js?v=20261008-7" defer></script>
+<style>#flowScaleControls[hidden],#flowColorbar[hidden],#flowScaleLabel[hidden],#flowScaleMessage[hidden],#meshPreviewOverview[hidden]{display:none}body[data-mesh-preview=true] :is(#settingsSection,#iterationSection,#stabilitySection,#nativeStopState){display:none!important}</style>
 <style>
 .continuation-settings,.runtime-settings{display:none!important}.dashboard-layout:has(.showcase-banner:not([hidden])){padding-top:16px}.showcase-banner{position:relative;isolation:isolate;margin:0 0 18px;padding:12px 44px 12px 16px;border-radius:var(--apple-panel-radius);background:var(--surface-material);color:var(--muted);box-shadow:none;filter:drop-shadow(0 3px 7.5px var(--floating-shadow-color))}.showcase-banner[hidden]{display:none!important}.showcase-banner>.showcase-dismiss{position:absolute!important;top:8px;right:8px;width:24px;height:24px;padding:0;display:grid;place-items:center;border:0;border-radius:6px;background:none!important;background-image:none!important;color:var(--muted);box-shadow:none!important;filter:none!important;cursor:pointer}.showcase-dismiss::before{content:none!important}.showcase-dismiss:focus-visible{outline:2px solid var(--blue);outline-offset:2px}.showcase-dismiss:hover{color:var(--fg)}</style>
 </head>
@@ -137,14 +138,15 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   <p class="showcase-banner small" role="note"><button class="showcase-dismiss" type="button" aria-label="关闭只读提示" title="关闭只读提示"><svg width="12" height="12" viewBox="0 0 12 12" aria-hidden="true" focusable="false"><path d="M3 3l6 6M9 3l-6 6" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round"/></svg></button>只读展示快照 · 导出于 <time datetime="2026-10-07T19:41:17.751359+00:00">2026-10-07T19:41:17.751359+00:00</time> · 真实保存数据；运行状态与验收结论截至导出时刻。<br>本页为静态结果快照，未连接求解器；计算控制、保护、新建分支及归档不可用。节点浏览、隐藏显示和流场交互仍可用。</p>
   <section id="calculationTimeline" class="calculation-timeline" aria-label="所选计算任务的历程" hidden><div class="timeline-heading"><h3>计算历程</h3><span id="timelineSummary" class="small muted"></span></div><div class="timeline-floating"><button id="timelineToggle" class="timeline-toggle" type="button" aria-label="收起计算历程" aria-expanded="true" aria-controls="timelineNodes"><svg viewBox="0 0 14 14" aria-hidden="true"><path id="timelineToggleIcon" d="M9 3 5 7l4 4"/></svg></button><button id="languageToggle" class="timeline-toggle language-toggle" type="button" aria-label="Switch to English" title="Switch to English">EN</button><div id="timelineNodes" class="timeline-nodes" role="list" aria-label="计算段节点"></div><button id="timelineBranchToggle" class="timeline-branch-toggle" type="button" aria-label="展开计算分支" title="展开计算分支" aria-expanded="false" aria-controls="timelineNodes"><svg viewBox="0 0 14 14" aria-hidden="true"><path d="m3 5 4 4 4-4"/></svg></button></div></section>
   <header>
-    <div class="header-content"><div class="title-row"><h1>SF 试算 · 展示快照</h1><span id="nativeStopState" class="small muted" aria-live="polite">原生自动停止：读取中</span><a class="github-link" href="https://github.com/Ysrae1/su2-cfd-dashboard" target="_blank" rel="noopener noreferrer" aria-label="查看 GitHub 仓库" title="查看 GitHub 仓库"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.468-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.652.243 2.873.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.608-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.596 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></div>
+    <div class="header-content"><div class="title-row"><h1>SU2 CFD · 展示快照</h1><span id="nativeStopState" class="small muted" aria-live="polite">原生自动停止：读取中</span><a class="github-link" href="https://github.com/Ysrae1/su2-cfd-dashboard" target="_blank" rel="noopener noreferrer" aria-label="查看 GitHub 仓库" title="查看 GitHub 仓库"><svg viewBox="0 0 24 24" aria-hidden="true" focusable="false"><path d="M12 .297C5.37.297 0 5.67 0 12.297c0 5.303 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577 0-.285-.01-1.04-.015-2.04-3.338.724-4.043-1.61-4.043-1.61-.546-1.387-1.333-1.756-1.333-1.756-1.09-.745.083-.73.083-.73 1.205.084 1.838 1.236 1.838 1.236 1.07 1.835 2.809 1.305 3.495.998.108-.776.417-1.305.76-1.605-2.665-.305-5.467-1.334-5.467-5.93 0-1.31.468-2.381 1.236-3.221-.124-.303-.536-1.524.117-3.176 0 0 1.008-.322 3.301 1.23a11.52 11.52 0 0 1 3.003-.404c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.655 1.652.243 2.873.12 3.176.77.84 1.235 1.911 1.235 3.221 0 4.608-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222 0 1.606-.015 2.898-.015 3.293 0 .322.216.694.825.576C20.565 22.092 24 17.596 24 12.297c0-6.627-5.373-12-12-12"/></svg></a></div>
       <div id="statusPanel" class="status-panel" data-state="loading"><div id="status" class="status" role="status" aria-live="polite">正在连接…</div><div id="updated" class="small muted">读取保存快照</div><div id="connection" class="small" aria-live="polite"></div></div>
       <div class="calculation-controls" role="group" aria-label="计算控制"><button id="controlStart" type="button" data-action="start" disabled>开始</button><button id="controlPause" type="button" data-action="pause" disabled>暂停</button><button id="controlResume" type="button" data-action="resume" disabled>恢复</button><button id="controlContinue" type="button" data-action="continue" disabled>直接续算</button><button id="controlReconfigure" type="button" disabled>改设置续算</button><button id="controlRestart" type="button" data-action="restart" disabled>重新计算</button></div>
-      <div id="controlMessage" class="control-message small muted" role="status"></div><form id="continuationSettings" class="continuation-settings" hidden><p id="branchSourceNote" class="branch-source-note small muted" hidden></p><label for="continuationCfl">CFL 上限<input id="continuationCfl" type="number" min="0.1" max="500" step="any" value="10" required></label><label for="continuationOrder">计算格式<select id="continuationOrder"><option value="true">一阶诊断</option><option value="false">二阶</option></select></label><label for="continuationNativeStop">原生自动停止<select id="continuationNativeStop"><option value="true">开启：满足原生判据自动停止</option><option value="false">关闭：不按原生判据停止</option></select></label><button id="continuationSubmit" type="submit">按新设置续算</button><button id="continuationCancel" type="button">取消</button><span class="small muted">提交后开始计算；时间、迭代上限与独立验收仍生效。</span></form><p id="runDetails" class="subtitle muted">正在读取诊断算例与控制参数…</p></div>
+      <div id="controlMessage" class="control-message small muted" role="status"></div><form id="continuationSettings" class="continuation-settings" hidden><p id="branchSourceNote" class="branch-source-note small muted" hidden></p><label for="continuationCfl">CFL 上限<input id="continuationCfl" type="number" min="0.1" max="500" step="any" value="10" required></label><label for="continuationOrder">计算格式<select id="continuationOrder"><option value="true">一阶诊断</option><option value="false">二阶</option></select></label><label for="continuationNativeStop">原生自动停止<select id="continuationNativeStop"><option value="true">开启：满足原生判据自动停止</option><option value="false">关闭：不按原生判据停止</option></select></label><button id="continuationSubmit" type="submit">按新设置续算</button><button id="continuationCancel" type="button">取消</button><span class="small muted">提交后开始计算；当前停止规则、资源保护与独立验收仍生效。</span></form><p id="runDetails" class="subtitle muted">正在读取诊断算例与控制参数…</p></div>
   </header>
   <p id="viewingRunNote" class="viewing-note small muted" role="status"></p>
+  <section id="meshPreviewOverview" class="comparison-panel" hidden><h3>仅网格，尚未求解</h3><p id="meshPreviewCounts" class="mono"></p><p id="meshPreviewSource" class="small muted"></p><p class="small muted">未启动 CFD，无流场、残差或气动力结果。</p></section>
   <section id="settingsSection" class="page-section" aria-labelledby="settingsHeading"><h2 id="settingsHeading">计算设置与概览</h2>
-  <section class="runtime-settings" aria-label="通用运行设置"><div class="runtime-row"><h3>通用运行设置</h3><label for="runtimeTimeout">时间上限（分钟）<input id="runtimeTimeout" type="number" min="0.016666666666666666" max="35791394.11666667" step="any" value="15" aria-label="时间上限（分钟）"></label><button id="runtimeSave" type="button" disabled>保存默认</button><button id="runtimeApply" type="button" disabled>应用到当前</button></div><p id="runtimeSummary" class="small muted" role="status">正在读取通用时间设置…</p><p class="small muted">开始、直接续算、改设置续算、重新计算均使用输入的上限；暂停时间不计入。应用到当前不会重启或清零计时；若新上限小于已用时间，计算会在下一次检查时结束。迭代上限仍有效。</p><div class="runtime-row" style="margin-top:12px" role="group" aria-label="稳定性自动停止"><h3>稳定性自动停止</h3><button id="stabilityStopToggle" type="button" aria-pressed="false" disabled>开启稳定性自动停止</button><span id="stabilityStopState" class="small muted" role="status">正在读取停止规则…</span></div><p id="stabilityStopCriteria" class="small muted"></p><p id="stabilityStopCheckpoint" class="small muted" role="status"></p><p class="small muted">开关即时生效，后续开始与续算沿用；网页关闭后监控仍运行，本地服务需保持开启。自动停止表示稳定性条件达标，保存流场仍需最终验收。</p></section>
+  <section class="runtime-settings" aria-label="通用运行设置"><div class="runtime-row"><h3>通用运行设置</h3><label for="runtimeTimeout">时间上限（分钟）<input id="runtimeTimeout" type="number" min="0.016666666666666666" max="35791394.11666667" step="any" value="15" aria-label="时间上限（分钟）"></label><button id="runtimeSave" type="button" disabled>保存默认</button><button id="runtimeApply" type="button" disabled>应用到当前</button></div><p id="runtimeSummary" class="small muted" role="status">正在读取通用时间设置…</p><p class="small muted">开始、直接续算、改设置续算、重新计算均使用输入的上限；暂停时间不计入。应用到当前不会重启或清零计时；若新上限小于已用时间，计算会在下一次检查时结束。当前停止规则、资源保护与独立验收仍生效。</p><div class="runtime-row" style="margin-top:12px" role="group" aria-label="稳定性自动停止"><h3>稳定性自动停止</h3><button id="stabilityStopToggle" type="button" aria-pressed="false" disabled>开启稳定性自动停止</button><span id="stabilityStopState" class="small muted" role="status">正在读取停止规则…</span></div><p id="stabilityStopCriteria" class="small muted"></p><p id="stabilityStopCheckpoint" class="small muted" role="status"></p><p class="small muted">开关即时生效，后续开始与续算沿用；网页关闭后监控仍运行，本地服务需保持开启。自动停止表示稳定性条件达标，保存流场仍需最终验收。</p></section>
   <div class="stats mono">
     <section class="stat"><div class="muted">当前迭代步</div><div class="value" id="iteration">—</div><div class="small muted">本次续算的步数</div></section>
     <section class="stat"><div class="muted">已用试算时间</div><div class="value" id="elapsed">—</div><div id="remaining" class="small muted">正在读取试算时间上限</div><div class="budget" role="progressbar" aria-label="已用时间占试算上限" aria-valuemin="0" aria-valuemax="100" aria-valuenow="0"><span id="budgetFill"></span></div></section>
@@ -176,7 +178,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     <img id="baselineFlowImage" class="flow-image" alt="原 30P30N 已验收二阶流场的 Mach 分布" hidden>
     <canvas id="flowCanvas" class="flow-canvas" role="img" aria-label="实际网格的 Mach 流场，可用滚轮缩放、拖动平移" hidden></canvas>
     <img id="flowImage" class="flow-image" alt="最新已保存流场的 Mach 分布，色标固定为 0 至 0.5" hidden>
-    <div class="flow-controls">
+    <div id="flowScaleControls" class="flow-controls">
       <div class="flow-control-row"><label for="flowMinNumber">下限</label><input id="flowMinSlider" type="range" min="0" max="1" step="0.001" value="0" aria-label="Mach 色标下限滑块"><input id="flowMinNumber" type="number" step="any" value="0" aria-label="Mach 色标下限数值"></div>
       <div class="flow-control-row"><label for="flowMaxNumber">上限</label><input id="flowMaxSlider" type="range" min="0" max="1" step="0.001" value="0.5" aria-label="Mach 色标上限滑块"><input id="flowMaxNumber" type="number" step="any" value="0.5" aria-label="Mach 色标上限数值"></div>
       <button id="flowScaleApply" type="button">上下限恢复默认</button>
@@ -265,7 +267,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   let stageMenuRun=null,stageMenuTrigger=null;
   try{const saved=JSON.parse(localStorage.getItem('sf-showcase-dashboard-hidden-stages')||'[]');if(Array.isArray(saved))for(const run of saved)if(typeof run==='string')hiddenStages.add(run);}catch(error){}
   try{timelineTreeExpanded=localStorage.getItem('sf-showcase-dashboard-timeline-tree')==='true';}catch(error){}
-  let selectedTask=new URL(window.location.href).searchParams.get('run')||window.DASHBOARD_SHOWCASE.default_run,taskListKey='',timelineKey='',pollSerial=0,progressAbort=null;
+  let selectedTask=new URL(window.location.href).searchParams.get('run')||window.DASHBOARD_SHOWCASE.default_run,taskListKey='',timelineKey='',pollSerial=0,progressAbort=null,selectionPending=false;
   const timelineDisplayState={taskId:null,anchorRun:null};
   let runtimeDirty=false;
   try{const saved=JSON.parse(localStorage.getItem('sf-showcase-dashboard-plot-windows'));for(const id of Object.keys(plotWindows)){const value=saved?.[id];if(value&&['recent','all'].includes(value.scope)&&Number.isInteger(value.count)&&value.count>=2)plotWindows[id]={scope:value.scope,count:value.count};}}catch(error){}
@@ -274,7 +276,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   const sci = x => finite(x) ? x.toExponential(3) : '—';
   const duration = x => finite(x) ? `${Math.floor(Math.max(0,x)/60)}分 ${Math.floor(Math.max(0,x)%60).toString().padStart(2,'0')}秒` : '—';
   let flowScaleMin=0,flowScaleMax=0.5,flowField='mach',flowFieldOptionsKey='';
-  const flowFieldLabels={mach:'Mach',cp:'Cₚ',pressure:'压力',density:'密度',temperature:'温度',velocity:'速度模'};
+  const flowFieldLabels={mach:'Mach',cp:'Cₚ',pressure:'压力',density:'密度',temperature:'温度',velocity:'速度模',mesh:'仅网格'};
   const validFlowRange=range=>Array.isArray(range)&&range.length===2&&range.every(finite)&&range[1]>range[0];
   const flowScaleRanges={};
   try{const saved=JSON.parse(localStorage.getItem('sf-showcase-dashboard-flow-scales'));for(const [id,range] of Object.entries(saved||{}))if(id in flowFieldLabels&&validFlowRange(range)&&(!['mach','velocity'].includes(id)||range[0]>=0))flowScaleRanges[id]=range;}catch(error){}
@@ -465,7 +467,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     flowViewInitialized=true;drawFlowViewers();
   }
   function createMeshViewer(canvasId,onContextLost){
-    const canvas=$(canvasId);let gl,program,vao,positionBuffer,scalarBuffer,indexBuffer,count=0,supported=true,meshFields=[],scalarArrays=new Map(),activeField=null;
+    const canvas=$(canvasId);let gl,program,vao,positionBuffer,scalarBuffer,indexBuffer,edgeBuffer,count=0,edgeCount=0,supported=true,meshFields=[],scalarArrays=new Map(),activeField=null;
     const chord=flowChord,camera=flowCamera;
     try{
       gl=canvas.getContext('webgl2',{alpha:false,antialias:true,depth:false,stencil:false});
@@ -483,14 +485,16 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
         precision highp float;
         in float v_scalar;
         uniform vec2 u_range;
+        uniform bool u_meshOnly;
+        uniform vec3 u_meshColor;
         out vec4 color;
         const vec3 lut[5]=vec3[5](vec3(.267,.005,.329),vec3(.23,.32,.55),vec3(.13,.57,.55),vec3(.37,.79,.38),vec3(.993,.906,.144));
-        void main(){float t=clamp((v_scalar-u_range.x)/(u_range.y-u_range.x),0.0,1.0)*4.0;int i=min(int(floor(t)),3);color=vec4(mix(lut[i],lut[i+1],t-float(i)),1.0);}`);
+        void main(){if(u_meshOnly){color=vec4(u_meshColor,1.0);return;}float t=clamp((v_scalar-u_range.x)/(u_range.y-u_range.x),0.0,1.0)*4.0;int i=min(int(floor(t)),3);color=vec4(mix(lut[i],lut[i+1],t-float(i)),1.0);}`);
       program=gl.createProgram();gl.attachShader(program,vertex);gl.attachShader(program,fragment);gl.linkProgram(program);
       if(!gl.getProgramParameter(program,gl.LINK_STATUS))throw new Error(gl.getProgramInfoLog(program));
       gl.deleteShader(vertex);gl.deleteShader(fragment);vao=gl.createVertexArray();
-      positionBuffer=gl.createBuffer();scalarBuffer=gl.createBuffer();indexBuffer=gl.createBuffer();
-      if(!vao||!positionBuffer||!scalarBuffer||!indexBuffer)throw new Error('WebGL buffers unavailable');
+      positionBuffer=gl.createBuffer();scalarBuffer=gl.createBuffer();indexBuffer=gl.createBuffer();edgeBuffer=gl.createBuffer();
+      if(!vao||!positionBuffer||!scalarBuffer||!indexBuffer||!edgeBuffer)throw new Error('WebGL buffers unavailable');
       gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);gl.enableVertexAttribArray(0);gl.vertexAttribPointer(0,2,gl.FLOAT,false,0,0);
       gl.bindBuffer(gl.ARRAY_BUFFER,scalarBuffer);gl.enableVertexAttribArray(1);gl.vertexAttribPointer(1,1,gl.FLOAT,false,0,0);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);gl.disable(gl.CULL_FACE);gl.disable(gl.DEPTH_TEST);
@@ -504,13 +508,18 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       if(!flowViewInitialized){resetFlowView();return;}
       const ratio=window.devicePixelRatio||1,pw=Math.round(width*ratio),ph=Math.round(height*ratio);
       if(canvas.width!==pw||canvas.height!==ph){canvas.width=pw;canvas.height=ph;}
-      gl.viewport(0,0,pw,ph);gl.clearColor(1,1,1,1);gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(program);gl.bindVertexArray(vao);
+      const meshOnly=activeField==='mesh',dark=window.matchMedia('(prefers-color-scheme: dark)').matches;
+      gl.viewport(0,0,pw,ph);gl.clearColor(...(meshOnly&&dark?[.114,.133,.165,1]:[1,1,1,1]));gl.clear(gl.COLOR_BUFFER_BIT);gl.useProgram(program);gl.bindVertexArray(vao);
       gl.uniform2f(gl.getUniformLocation(program,'u_center'),camera.x,camera.y);
       gl.uniform2f(gl.getUniformLocation(program,'u_halfExtent'),camera.halfHeight*width/height,camera.halfHeight);
       gl.uniform2f(gl.getUniformLocation(program,'u_range'),flowScaleMin,flowScaleMax);
-      gl.drawElements(gl.TRIANGLES,count,gl.UNSIGNED_INT,0);
+      gl.uniform1i(gl.getUniformLocation(program,'u_meshOnly'),meshOnly?1:0);
+      gl.uniform3f(gl.getUniformLocation(program,'u_meshColor'),...(dark?[.75,.80,.87]:[.25,.30,.36]));
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,meshOnly?edgeBuffer:indexBuffer);
+      gl.drawElements(meshOnly?gl.LINES:gl.TRIANGLES,meshOnly?edgeCount:count,gl.UNSIGNED_INT,0);
     }
     function setField(id){
+      if(id==='mesh'){if(!edgeCount)return false;activeField=id;return true;}
       const values=scalarArrays.get(id);if(!values)return false;
       if(activeField!==id){gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,scalarBuffer);gl.bufferData(gl.ARRAY_BUFFER,values,gl.STATIC_DRAW);activeField=id;}
       return true;
@@ -519,18 +528,21 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       if(!supported)throw new Error('WebGL2 unavailable');
       if(buffer.byteLength<16)throw new Error('Incomplete mesh header');
       const header=new DataView(buffer),magic=header.getUint32(0,true),version=header.getUint32(4,true),n=header.getUint32(8,true),indicesCount=header.getUint32(12,true);
-      if(magic!==0x4145524f||![1,2].includes(version)||n<3||indicesCount<3||indicesCount%3!==0)throw new Error('Invalid mesh binary');
-      let offset=16,fields=[{id:'mach',label:'Mach',unit:'',source:'Mach'}];
-      if(version===2){
-        if(buffer.byteLength<24)throw new Error('Incomplete field header');
+      if(magic!==0x4145524f||![1,2,3].includes(version)||n<3||indicesCount<3||indicesCount%3!==0)throw new Error('Invalid mesh binary');
+      let offset=16,edgesCount=0,fields=[{id:'mach',label:'Mach',unit:'',source:'Mach'}];
+      if(version>=2){
+        const headerLength=version===3?28:24;
+        if(buffer.byteLength<headerLength)throw new Error('Incomplete field header');
         const fieldCount=header.getUint32(16,true),descriptorLength=header.getUint32(20,true);
-        if(fieldCount<1||fieldCount>32||descriptorLength<1||descriptorLength>1048576||24+descriptorLength>buffer.byteLength)throw new Error('Invalid field descriptor');
-        const descriptor=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(buffer,24,descriptorLength)));
+        if(version===3){edgesCount=header.getUint32(24,true);if(edgesCount<2||edgesCount%2!==0)throw new Error('Invalid original mesh edges');}
+        if(fieldCount>32||(version<3&&fieldCount<1)||descriptorLength<1||descriptorLength>1048576||headerLength+descriptorLength>buffer.byteLength)throw new Error('Invalid field descriptor');
+        const descriptor=JSON.parse(new TextDecoder('utf-8',{fatal:true}).decode(new Uint8Array(buffer,headerLength,descriptorLength)));
+        if(fieldCount===0&&descriptor.mesh_preview_only!==true)throw new Error('An empty field descriptor requires a mesh preview');
         fields=descriptor.fields;
-        if(!Array.isArray(fields)||fields.length!==fieldCount||fields.some(f=>!f||typeof f.id!=='string'||!(f.id in flowFieldLabels))||new Set(fields.map(f=>f.id)).size!==fields.length)throw new Error('Invalid mesh fields');
-        offset=24+Math.ceil(descriptorLength/4)*4;
+        if(!Array.isArray(fields)||fields.length!==fieldCount||fields.some(f=>!f||typeof f.id!=='string'||!(f.id in flowFieldLabels)||f.id==='mesh')||new Set(fields.map(f=>f.id)).size!==fields.length)throw new Error('Invalid mesh fields');
+        offset=headerLength+Math.ceil(descriptorLength/4)*4;
       }
-      const expected=offset+n*(2+fields.length)*4+indicesCount*4;
+      const expected=offset+n*(2+fields.length)*4+(indicesCount+edgesCount)*4;
       if(buffer.byteLength!==expected)throw new Error('Incomplete mesh field data');
       const littleEndian=new Uint8Array(new Uint32Array([1]).buffer)[0]===1;
       const readArray=(type,start,length)=>{if(littleEndian)return new type(buffer,start,length);const values=new type(length);for(let i=0;i<length;i++)values[i]=type===Float32Array?header.getFloat32(start+i*4,true):header.getUint32(start+i*4,true);return values;};
@@ -543,9 +555,14 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       });
       const indices=readArray(Uint32Array,offset,indicesCount);
       for(let i=0;i<indicesCount;i++)if(indices[i]>=n)throw new Error('Invalid mesh index');
+      offset+=indicesCount*4;const edges=readArray(Uint32Array,offset,edgesCount);
+      for(let i=0;i<edgesCount;i+=2)if(edges[i]>=n||edges[i+1]>=n||edges[i]===edges[i+1])throw new Error('Invalid original cell edge');
       gl.bindVertexArray(vao);gl.bindBuffer(gl.ARRAY_BUFFER,positionBuffer);gl.bufferData(gl.ARRAY_BUFFER,xy,gl.STATIC_DRAW);
       gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,indexBuffer);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,indices,gl.STATIC_DRAW);
-      scalarArrays=nextArrays;meshFields=fields;activeField=null;count=indicesCount;setField(scalarArrays.has(flowField)?flowField:fields[0].id);
+      gl.bindBuffer(gl.ELEMENT_ARRAY_BUFFER,edgeBuffer);gl.bufferData(gl.ELEMENT_ARRAY_BUFFER,edges,gl.STATIC_DRAW);
+      scalarArrays=nextArrays;meshFields=fields;activeField=null;count=indicesCount;edgeCount=edgesCount;
+      // Allocate a scalar attribute even when the first requested mode draws only edges.
+      if(fields.length)setField(fields[0].id);else{gl.bindBuffer(gl.ARRAY_BUFFER,scalarBuffer);gl.bufferData(gl.ARRAY_BUFFER,n*4,gl.STATIC_DRAW);}if(flowField==='mesh'||scalarArrays.has(flowField))setField(flowField);
       if(flowViewInitialized)drawMesh();
     }
     function mouse(event){const rect=canvas.getBoundingClientRect(),{width,height}=size();return {x:2*(event.clientX-rect.left-canvas.clientLeft)/width-1,y:1-2*(event.clientY-rect.top-canvas.clientTop)/height,aspect:width/height};}
@@ -612,7 +629,8 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     window.addEventListener('blur',cancelInteraction);document.addEventListener('visibilitychange',()=>{if(document.hidden)cancelInteraction();});
     canvas.addEventListener('webglcontextlost',event=>{event.preventDefault();cancelInteraction();supported=false;onContextLost();});
     new ResizeObserver(drawMesh).observe(canvas);
-    const viewer={supported:()=>supported,hasMesh:()=>count>0,clear:()=>{cancelInteraction();count=0;meshFields=[];scalarArrays=new Map();activeField=null;},cancelInteraction,fields:()=>meshFields,hasField:id=>scalarArrays.has(id),setField,upload,draw:drawMesh};flowViewers.push(viewer);return viewer;
+    window.matchMedia('(prefers-color-scheme: dark)').addEventListener('change',drawMesh);
+    const viewer={supported:()=>supported,hasMesh:()=>count>0,clear:()=>{cancelInteraction();count=0;edgeCount=0;meshFields=[];scalarArrays=new Map();activeField=null;},cancelInteraction,fields:()=>meshFields,hasField:id=>id==='mesh'?edgeCount>0:scalarArrays.has(id),setField,upload,draw:drawMesh};flowViewers.push(viewer);return viewer;
   }
   const baselineFlowDisplay=createFlowDisplay('baselineFlow','原 30P30N'),currentFlowDisplay=createFlowDisplay('flow','当前模型');
   function currentFlowFieldLabel(){return flowFieldLabels[flowField]||flowField;}
@@ -624,6 +642,14 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     return [min,max];
   }
   function colorbar(min,max,prefix='共同色标'){
+    const meshOnly=flowField==='mesh';
+    for(const id of ['flowScaleControls','flowColorbar','flowScaleLabel','flowScaleMessage'])$(id).hidden=meshOnly;
+    if(meshOnly){
+      $('flowComparisonNote').textContent='两图使用相同米制视角，显示各自保存快照中的原始单元边；四边形不添加对角线。';
+      $('baselineFlowCanvas').setAttribute('aria-label','原 30P30N 保存网格，与当前网格同步缩放和平移');
+      $('flowCanvas').setAttribute('aria-label','当前模型保存网格，与原始网格同步缩放和平移');
+      return;
+    }
     const label=x=>Number(x.toPrecision(6)).toString(),fieldLabel=currentFlowFieldLabel();
     const descriptor=[baselineFlowDisplay,currentFlowDisplay].flatMap(display=>display.fields()).find(field=>field.id===flowField),unit=descriptor?.unit;
     $('flowScaleLabel').textContent=`${prefix} ${label(min)}–${label(max)}${unit?` · ${unit}`:''}`;
@@ -646,7 +672,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   function writeFlowScaleControls(){
     $('flowMinNumber').value=String(flowScaleMin);$('flowMaxNumber').value=String(flowScaleMax);updateSliderDomain();colorbar(flowScaleMin,flowScaleMax);
   }
-  function setFlowControls(enabled){for(const id of ['flowMinSlider','flowMinNumber','flowMaxSlider','flowMaxNumber','flowScaleApply','flowTouchToggle','flowReset'])$(id).disabled=!enabled;}
+  function setFlowControls(enabled){for(const id of ['flowMinSlider','flowMinNumber','flowMaxSlider','flowMaxNumber','flowScaleApply'])$(id).disabled=!enabled||flowField==='mesh';for(const id of ['flowTouchToggle','flowReset'])$(id).disabled=!enabled;}
   function applyFlowScale(){
     const min=$('flowMinNumber').valueAsNumber,max=$('flowMaxNumber').valueAsNumber;
     const bound=flowAbsoluteMin();
@@ -713,21 +739,21 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   window.addEventListener('resize',()=>{if(!selectMenuOwner)return;const rect=selectMenuOwner.trigger.getBoundingClientRect(),menu=$('selectMenu');menu.style.width=menu.style.minWidth=`${rect.width}px`;menu.style.maxWidth=`${Math.max(1,window.innerWidth-rect.left-12)}px`;menu.style.maxHeight=`${Math.max(80,window.innerHeight-rect.top-12)}px`;});
   $('flowField').addEventListener('change',()=>{
     flowField=$('flowField').value;
-    [flowScaleMin,flowScaleMax]=flowScaleRanges[flowField]||flowFieldRange(flowField);
-    flowScaleRanges[flowField]=[flowScaleMin,flowScaleMax];$('flowScaleMessage').textContent='';
+    if(flowField!=='mesh'){[flowScaleMin,flowScaleMax]=flowScaleRanges[flowField]||flowFieldRange(flowField);flowScaleRanges[flowField]=[flowScaleMin,flowScaleMax];}$('flowScaleMessage').textContent='';
     writeFlowScaleControls();baselineFlowDisplay.refresh();currentFlowDisplay.refresh();drawFlowViewers();
   });
   function updateFlowControls(){
     const fields=baselineFlowDisplay.fields().filter(field=>currentFlowDisplay.fields().some(other=>other.id===field.id));
-    const key=fields.map(field=>field.id).join('|'),select=$('flowField');
+    const options=[...(data?.mesh_preview_only?[]:fields.length?fields:[{id:'mach',label:'Mach'}]),{id:'mesh',label:'仅网格'}];
+    const key=options.map(field=>field.id).join('|'),select=$('flowField');
     if(key!==flowFieldOptionsKey){
-      select.replaceChildren();for(const field of fields.length?fields:[{id:'mach',label:'Mach'}]){const option=document.createElement('option');option.value=field.id;option.textContent=flowFieldLabels[field.id];select.append(option);}flowFieldOptionsKey=key;
+      select.replaceChildren();for(const field of options){const option=document.createElement('option');option.value=field.id;option.textContent=flowFieldLabels[field.id];select.append(option);}flowFieldOptionsKey=key;
     }
-    if(fields.length&&!fields.some(field=>field.id===flowField)){
+    if(flowField!=='mesh'&&fields.length&&!fields.some(field=>field.id===flowField)){
       flowField=fields.some(field=>field.id==='mach')?'mach':fields[0].id;[flowScaleMin,flowScaleMax]=flowScaleRanges[flowField]||flowFieldRange(flowField);writeFlowScaleControls();
       baselineFlowDisplay.refresh();currentFlowDisplay.refresh();
     }
-    select.value=flowField;select.disabled=fields.length<2;refreshStyledSelects();
+    select.value=flowField;select.disabled=false;refreshStyledSelects();
     const interactive=!$('baselineFlowCanvas').hidden||!$('flowCanvas').hidden;
     setFlowControls(interactive);
     updateFlowInteraction(interactive);
@@ -760,15 +786,15 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
       canvas.hidden=!showMesh;image.hidden=showMesh||!hasImage;placeholder.hidden=showMesh||hasImage;
       if(showMesh){
         s=state.loadedUrl===s.mesh_url?s:state.displayed;viewer.draw();
-        $(`${prefix}ViewerStatus`).textContent=state.requestedUrl?'正在加载下一张网格快照；当前显示上一张已加载快照。':failed?'新网格快照加载失败，保留上一张已加载快照。':`实际网格渲染，节点 ${currentFlowFieldLabel()} 在线性三角单元内插值${flowField==='velocity'?'；速度模由节点 Velocity 向量求模':''}。`;
+        $(`${prefix}ViewerStatus`).textContent=state.requestedUrl?'正在加载下一张网格快照；当前显示上一张已加载快照。':failed?'新网格快照加载失败，保留上一张已加载快照。':flowField==='mesh'?'仅显示原始单元边；四边形不添加对角线。':`实际网格渲染，节点 ${currentFlowFieldLabel()} 在线性三角单元内插值${flowField==='velocity'?'；速度模由节点 Velocity 向量求模':''}。`;
       }else{
         const scale=Array.isArray(s.comparison_color_scale)&&s.comparison_color_scale.length===2&&s.comparison_color_scale.every(finite)?s.comparison_color_scale:[0,.5];
-        $(`${prefix}ViewerStatus`).textContent=!viewer.supported()?(flowField==='mach'?'浏览器不支持 WebGL2；PNG 预览使用源色标，不能同步缩放或调整色标。':`浏览器不支持 WebGL2；${currentFlowFieldLabel()} 无对应 PNG 预览。`):failed?'网格快照加载失败，等待新的快照。':canLoad?(viewer.hasMesh()&&!viewer.hasField(flowField)?`此网格快照没有 ${currentFlowFieldLabel()} 参数。`:'正在加载实际网格…'):'等待实际网格数据。';
+        $(`${prefix}ViewerStatus`).textContent=!viewer.supported()?(flowField==='mach'?'浏览器不支持 WebGL2；PNG 预览使用源色标，不能同步缩放或调整色标。':`浏览器不支持 WebGL2；${currentFlowFieldLabel()} 无对应 PNG 预览。`):failed?'网格快照加载失败，等待新的快照。':canLoad?(viewer.hasMesh()&&!viewer.hasField(flowField)?flowField==='mesh'?'此旧快照未包含原始单元边，无法显示仅网格。':`此网格快照没有 ${currentFlowFieldLabel()} 参数。`:'正在加载实际网格…'):'等待实际网格数据。';
         if(hasImage&&s.image_url!==state.imageUrl){image.src=s.image_url;state.imageUrl=s.image_url;}
         image.alt=`${label}的 Mach 分布，PNG 源色标 ${scale[0]} 至 ${scale[1]}`;
       }
       const stamp=value=>{if(typeof value!=='string')return '未记录';const date=new Date(value);return Number.isNaN(date.getTime())?'未记录':date.toLocaleString('zh-CN',{hour12:false,timeZone:'Asia/Shanghai'});};
-      const step=finite(s.iteration)?`快照第 ${s.iteration.toLocaleString()} 步`:'快照步数未记录';
+      const step=s.mesh_preview_only?'仅网格 · 未求解':finite(s.iteration)?`快照第 ${s.iteration.toLocaleString()} 步`:'快照步数未记录';
       setCaseText($(`${prefix}Meta`),[s.run?`算例 ${s.run}`:'等待快照算例记录',step,`源文件更新于 ${stamp(s.source_mtime_utc||s.source_mtime)}`].join(' · '));
       $(`${prefix}Interpretation`).textContent=typeof s.interpretation==='string'?s.interpretation:'';
       updateFlowControls();
@@ -779,6 +805,10 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   function stageHasChildren(run){return (data?.task_timeline||[]).some(member=>member.parent_run===run);}
   function renderControl(control){
     const c=control || {},historical=c.view_only===true,historicalReady=historical&&c.viewed_run===data?.run,viewedStage=(data?.task_timeline||[]).find(member=>member.run===data?.run),canContinueFromSource=historicalReady&&stageRestartAvailable(viewedStage),needsBranch=historical&&stageHasChildren(data?.run);
+    if(data?.mesh_preview_only||data?.workflow_status==='failed'){
+      for(const id of ['controlStart','controlPause','controlResume','controlContinue','controlReconfigure','controlRestart','runtimeTimeout','runtimeSave','runtimeApply','stabilityStopToggle','continuationCfl','continuationOrder','continuationNativeStop','continuationSubmit'])$(id).disabled=true;
+      $('controlMessage').textContent=data?.workflow_status==='failed'?`流程已归档：${data.workflow_failure_reason||'准备检查失败'}；原始记录只读。`:'仅网格预览；计算控制不可用。';refreshStyledSelects();return;
+    }
     for(const [id,action,key] of [['controlStart','start','can_start'],['controlPause','pause','can_pause'],['controlResume','resume','can_resume'],['controlContinue','continue','can_continue'],['controlReconfigure','reconfigure','can_reconfigure'],['controlRestart','restart','can_restart']])$(id).disabled=controlBusy||!(historical&&['continue','reconfigure'].includes(action)?canContinueFromSource:controlAllowed(c,action,key));
     $('controlContinue').textContent=needsBranch?'新建分支 · 直接续算':'直接续算';
     $('controlReconfigure').textContent=needsBranch?'新建分支 · 改设置续算':'改设置续算';
@@ -816,6 +846,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   }
   async function performControl(action,settings,stabilityEnabled,sourceRun=action==='branch'?branchSourceRun:undefined){
     return; // Read-only static export: no calculation or provenance mutations.
+    if(data?.mesh_preview_only||data?.workflow_status==='failed')return;
     const sourceAction=sourceRun&&['branch','continue','reconfigure'].includes(action);
     if(controlBusy||(data?.control?.view_only===true&&!sourceAction))return;
     if(sourceAction&&(!stageRestartAvailable((data?.task_timeline||[]).find(member=>member.run===sourceRun))||(action!=='branch'&&stageHasChildren(sourceRun))))return;
@@ -825,7 +856,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     }
     controlBusy=true;controlError=null;renderControl(data?.control);
     try{
-      const body=settings?{action,settings}:{action};if(timeoutSeconds!==undefined)body.timeout_seconds=timeoutSeconds;
+      const body=settings?{action,settings}:{action};body.viewed_run=data?.run;if(timeoutSeconds!==undefined)body.timeout_seconds=timeoutSeconds;
       if(action==='set_stability_stop')body.stability_stop_enabled=stabilityEnabled;
       if(sourceAction){body.source_run=sourceRun;body.expected_run=data?.control?.current_run;}
       if(action==='undo_latest')body.expected_run=data?.control?.current_run;
@@ -884,12 +915,31 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     if($('modelChanges').dataset.contents!==changes){$('modelChanges').replaceChildren();for(const text of model.changes||[]){const li=document.createElement('li');li.textContent=text;$('modelChanges').append(li);}$('modelChanges').dataset.contents=changes;}
     $('modelCalculation').textContent=`当前实际计算格式：${model.flow_order||'读取中'}。`+(model.geometry_kind==='modified_sf'||model.parameters?'弯度与厚度参数按局部后翼片弦长归一化；平移按整机参考弦长归一化。':'');
   }
+  let previewCameraRun=null;
   function render(){
     const d=data,c=d.current || {};
     window.showcaseApplyTaskTitle(d);
+    const preview=d.mesh_preview_only===true;document.body.dataset.meshPreview=String(preview);$('meshPreviewOverview').hidden=!preview;
+    if(preview){
+      const title=d.node_label||d.label||'网格预览';document.querySelector('.title-row h1').textContent=title;document.title=title;
+      renderRecentTasks(d);renderTaskTimeline(d);renderControl(d.control);
+      setCaseText($('runDetails'),d.run);$('statusPanel').dataset.state='ended';$('status').textContent='仅网格预览 · 未启动气动计算';$('status').className='status';
+      if(d.workflow_status==='failed'){$('statusPanel').dataset.state='failed';$('status').textContent=`流程失败 · ${d.workflow_failure_reason||'准备检查失败'}`;$('status').className='status fail';}
+      const mesh=d.mesh_preview?.interactive_mesh||{};
+      $('meshPreviewCounts').textContent=`节点 ${mesh.points?.toLocaleString()||'—'} · 单元 ${mesh.source_cells?.toLocaleString()||'—'} · 原始单元边 ${mesh.original_cell_edges?.toLocaleString()||'—'}`;
+      setCaseText($('meshPreviewSource'),`来源：${mesh.source_mesh||'未记录'} · SHA-256 ${mesh.source_mesh_sha256||'未记录'}`);
+      $('flowHeading').textContent='网格对照';$('baselineFlowTitle').textContent='上图 · 原 30P30N · 保存网格';$('currentFlowTitle').textContent=`下图 · ${d.node_label||d.preview_title||d.label||'保存网格'}`;
+      $('note').textContent='仅导入原始网格供查看；未启动 CFD，无流场、残差或气动力结果。';
+      if(d.workflow_description)$('note').textContent+=' '+d.workflow_description;
+      if(previewCameraRun!==d.run){const view=d.preview_initial_view_m;if(view&&[view.center_x,view.center_y,view.half_height].every(finite)&&view.half_height>0){flowCamera.x=view.center_x;flowCamera.y=view.center_y;flowCamera.halfHeight=view.half_height;flowViewInitialized=true;}previewCameraRun=d.run;}
+      flowField='mesh';baselineFlowDisplay.render(d.baseline_flow_snapshot);currentFlowDisplay.render(d.flow_snapshot);drawFlowViewers();
+      $('updated').textContent=`快照于 ${new Date(d.last_updated_utc).toLocaleString('zh-CN',{hour12:false,timeZone:'Asia/Shanghai'})}`;
+      return;
+    }
+    previewCameraRun=null;$('flowHeading').textContent='流场对照';
     if(!window.DASHBOARD_SHOWCASE){
       const model=d.comparison?.model,kind=model?.geometry_kind==='original'?'原 30P30N':model?.geometry_kind==='modified_sf'?'SF 试算':'CFD 计算';
-      const title=[kind,d.turbulence_label,'实时迭代'].filter(Boolean).join(' · ');document.querySelector('.title-row h1').textContent=title;document.title=title;
+      const title=[d.display_label||[kind,d.turbulence_label].filter(Boolean).join(' · '),'实时迭代'].join(' · ');document.querySelector('.title-row h1').textContent=title;document.title=title;
     }
     renderRecentTasks(d);
     renderTaskTimeline(d);
@@ -921,6 +971,11 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     if(d.termination_reason==='stability_stop')$('note').textContent='本次按外部稳定性条件停止并保留已核对检查点；保存流场及质量守恒仍需最终验收。';
     if(d.numerical_stability?.passed===true&&d.accepted!==true)$('note').textContent=`数值稳定性条件已达标；${d.ended?(d.termination_reason==='stability_stop'?'本次按稳定性规则自动停止并保留已核对检查点':d.iteration_limit_reached?'本次因迭代上限结束，未使用原生收敛停止':'本次计算已结束'):'计算仍在进行'}。该结果的物理验证状态见验收记录。`;
     if(firstOrder)$('note').textContent+=' 当前为一阶诊断，恢复原二阶格式后才能判断目标算例是否收敛。';
+    if(d.workflow_status==='failed'){
+      $('statusPanel').dataset.state='failed';status.textContent=`流程失败 · ${d.workflow_failure_reason||'准备检查失败'}`;status.className='status fail';
+      $('note').textContent=`该流程因${d.workflow_failure_reason||'准备缺陷'}归档。原始数值${d.accepted===true?'检查通过':d.numerical_stability?.passed===true?'稳定性达标':'检查状态与记录保留'}；流程失败不改写数值收敛判定，当前几何结果不能作为有效气动比较依据。`;
+      if(d.workflow_description)$('note').textContent+=' '+d.workflow_description;
+    }
     $('windows').replaceChildren();
     for(const n of [250,1250]){
       const win=d.windows?.[String(n)],available=win?.available,pass=available&&win.CL_range<=win.CL_target&&win.CD_range<=win.CD_target;
@@ -957,6 +1012,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     clearFlowGestures();
     setTaskDrawerOpen(false);hideTimelineTooltip();closeStageMenu();
     selectedTask=run||null;const url=new URL(window.location.href);if(selectedTask)url.searchParams.set('run',selectedTask);else url.searchParams.delete('run');window.history.replaceState(null,'',url);
+    selectionPending=true;$('timelineToggle').disabled=true;$('timelineNodes').inert=true;
     ++pollSerial;if(progressAbort)progressAbort.abort();busy=false;
     currentFlowDisplay.clear();controlError=null;branchSourceRun=null;setSurfaceVisible($('continuationSettings'),false);
     if(data){data.control={...data.control,view_only:true,viewed_run:null};renderControl(data.control);}
@@ -964,25 +1020,34 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     poll();
   }
   function renderRecentTasks(d){
-    const runs=Array.isArray(d.recent_runs)?d.recent_runs:[],key=JSON.stringify(runs.map(run=>[run.task_id,run.run,run.status,run.started_utc,run.flow_order,run.cfl,run.current,run.segment_count,run.runs]));
+    const tasks=Array.isArray(d.recent_runs)?d.recent_runs:[],runs=tasks.flatMap(task=>[task,...(task.failed_members||[]).map(member=>({...member,task_id:`failed-mesh-${member.run}`,runs:[member.run],segment_count:1,current:false,stage_id:'failed-cases',stage_label:'失败案例',failure_reference:true}))]),key=JSON.stringify(runs.map(run=>[run.task_id,run.run,run.status,run.label,run.display_label,run.mesh_quality_status,run.workflow_status,run.workflow_failure_reason,run.stage_id,run.started_utc,run.flow_order,run.cfl,run.current,run.segment_count,run.runs]));
+    runs.sort((left,right)=>Number(left.stage_id==='failed-cases')-Number(right.stage_id==='failed-cases')||(left.stage_id==='failed-cases'&&right.stage_id==='failed-cases'?(Number(left.workflow_status==='failed')-Number(right.workflow_status==='failed')||(left.workflow_status==='failed'&&right.workflow_status==='failed'?String(left.started_utc).localeCompare(String(right.started_utc)):0)):0));
     $('recentStageLabel').textContent=d.research_stage?.label||'开题前的可行性验证';
     if(key!==taskListKey){
       $('recentRuns').replaceChildren();
+      const phaseLists=new Map();
       for(const run of runs){
+        let destination=$('recentRuns');
+        const family=run.stage_id==='failed-cases'?null:/^ds(?:-|$)/i.test(run.stage_id||'')?'DS':/^sf(?:-|$)/i.test(run.stage_id||'')?'SF':null;
+        const phaseId=family||run.stage_id,phaseLabel=family||run.stage_label||run.stage_id;
+        if(phaseId){
+          if(!phaseLists.has(phaseId)){const folder=document.createElement('details'),summary=document.createElement('summary'),list=document.createElement('nav');folder.className='phase-folder';folder.open=phaseId!=='failed-cases';summary.textContent=phaseLabel;list.className='task-list';folder.append(summary,list);$('recentRuns').append(folder);phaseLists.set(phaseId,list);}
+          destination=phaseLists.get(phaseId);
+        }
         const button=document.createElement('button');button.type='button';button.dataset.run=run.run;button.dataset.members=JSON.stringify(run.runs||[run.run]);
-        const name=document.createElement('span');name.className='task-name';const kind=run.showcase_label || (/^feas_sf/i.test(run.run)?'SF 试算':/^feas_l/i.test(run.run)?'原 30P30N':/^(?:feas_)?ds/i.test(run.run)?'DS 试算':'计算任务');name.textContent=[kind,run.turbulence_model==='SST'?'SST':null,run.flow_order,`${run.segment_count||run.runs?.length||1} 段`].filter(Boolean).join(' · ');button.title=(run.runs||[run.run]).join('\n');button.setAttribute('aria-label',`${name.textContent}，${run.run}`);
+        const name=document.createElement('span');name.className='task-name';name.textContent=run.display_label||run.label||'计算任务';button.title=(run.runs||[run.run]).join('\n');button.setAttribute('aria-label',`${name.textContent}，${run.run}`);
         const detail=document.createElement('span');detail.className='task-detail';
-        const labels={running:'计算中',paused:'已暂停',finished:'已结束',interrupted:'已停止',timeout:'超时结束',numerical_divergence:'数值发散',waiting:'待开始',starting:'启动中'};
+        const labels={running:'计算中',paused:'已暂停',finished:run.accepted===true?'验收通过':run.accepted===false?'已结束 · 未验收':'已结束',interrupted:'已主动停止',timeout:'达到时限 · 未验收',numerical_divergence:'数值发散',overlap_setup_interrupted:'准备中断',monitoring_setup_interrupted:'准备中断',waiting:'待开始',starting:'启动中',mesh_preview:run.failure_reference?'静态检查失败 · 原节点入口':'仅网格 · 未求解'};
         const date=new Date(run.started_utc),stamp=Number.isNaN(date.getTime())?'':date.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false,month:'2-digit',day:'2-digit',hour:'2-digit',minute:'2-digit'});
-        detail.textContent=[stamp,labels[run.status]||run.status||'状态未记录',finite(run.cfl)?`CFL ${run.cfl}`:null,run.current?'当前计算':null].filter(Boolean).join(' · ');
-        button.append(name,detail);button.addEventListener('click',()=>selectTask(run.current?null:run.run));$('recentRuns').append(button);
+        detail.textContent=[stamp,run.workflow_status==='failed'?`流程失败：${run.workflow_failure_reason||'准备缺陷'}`:labels[run.status]||run.status||'状态未记录',`${run.segment_count||1} ${run.ancestry_kind==='workflow'?'节点':run.mesh_preview_only?'版':'段'}`,finite(run.cfl)?`CFL ${run.cfl}`:null,run.current?'当前计算':null].filter(Boolean).join(' · ');
+        button.append(name,detail);button.addEventListener('click',()=>selectTask(run.run));destination.append(button);
       }
       if(!runs.length){const placeholder=document.createElement('p');placeholder.className='small muted';placeholder.textContent='暂无近期计算记录';$('recentRuns').append(placeholder);}
       taskListKey=key;window.dashboardRefreshCorners?.($('recentRuns'));
     }
     for(const button of $('recentRuns').querySelectorAll('button[data-run]')){const selected=String(JSON.parse(button.dataset.members||'[]').includes(d.run));if(button.getAttribute('aria-current')!==selected)button.setAttribute('aria-current',selected);}
     $('returnCurrentRun').disabled=d.run===window.DASHBOARD_SHOWCASE.current_run;
-    setCaseText($('viewingRunNote'),`正在查看保存节点 ${d.run}；图表沿真实祖先路径展示，数据截至导出时刻。`);
+    setCaseText($('viewingRunNote'),`正在查看保存节点 ${d.run}；图表沿真实来源路径展示，数据截至导出时刻。`);
   }
   function dockScale(distance,sigma){return finite(distance)&&finite(sigma)?1+.12*Math.exp(-.5*(distance/Math.max(1,sigma))**2):1;}
   function timelineDockCenters(){return Array.from($('timelineNodes').querySelectorAll('.timeline-step')).map(step=>{const rect=step.getBoundingClientRect();return {step,x:rect.left+rect.width/2,y:rect.top+rect.height/2};});}
@@ -1033,7 +1098,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   }
   function updateTimelineCollapse(){
     updateTimelineGeometry();
-    $('calculationTimeline').dataset.collapsed=String(timelineCollapsed);$('timelineNodes').inert=timelineCollapsed;
+    $('calculationTimeline').dataset.collapsed=String(timelineCollapsed);$('timelineNodes').inert=selectionPending||timelineCollapsed;
     $('timelineToggle').setAttribute('aria-expanded',String(!timelineCollapsed));$('timelineToggle').setAttribute('aria-label',timelineCollapsed?'展开计算历程':'收起计算历程');$('timelineToggleIcon').setAttribute('d',timelineCollapsed?'M5 3 9 7l-4 4':'M9 3 5 7l4 4');
     if(timelineCollapsed){stopTimelineExpansion();hideTimelineTooltip();resetDockMagnification(true);}
   }
@@ -1052,8 +1117,9 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   window.addEventListener('resize',updateTimelineGeometry,{passive:true});
   window.addEventListener('scroll',()=>{updateTimelineTreeEdges();dockTargetsDirty=true;if(dockPointerX!==null&&!timelineCollapsed&&!reducedMotion.matches)scheduleDockFrame();},{passive:true});
   function hideTimelineTooltip(){setSurfaceVisible($('timelineTooltip'),false);}
-  function isStageProtected(run){return run===protectedStage||(data?.control?.protected_runs||[]).includes(run);}
+  function isStageProtected(run){return run===protectedStage||(data?.control?.protected_runs||[]).includes(run)||(data?.task_timeline||[]).some(member=>member.run===run&&member.workflow_protected===true);}
   function stageDeletionState(run){
+    if((data?.task_timeline||[]).find(member=>member.run===run)?.mesh_preview_only)return {allowed:false,note:'网格修订原始记录保留；仅可隐藏或恢复本浏览器显示。'};
     if(isStageProtected(run))return {allowed:false,note:'重要结果 · 受保护，不能删除'};
     const candidate=data?.control?.undo_latest;
     if(candidate?.run===run&&['start','restart'].includes(candidate.operation))return {allowed:!controlBusy,note:'归档此最新新建阶段，并返回之前的计算；原始文件会保留。'};
@@ -1069,7 +1135,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     $('stageVisibilityToggle').disabled=controlBusy;
     $('stageBranch').disabled=controlBusy||!stageRestartAvailable(member);
     $('stageProtect').textContent=stageMenuRun===protectedStage?'重要结果 · 已保护':isStageProtected(stageMenuRun)?'取消保护':'保护此节点';
-    $('stageProtect').disabled=controlBusy||stageMenuRun===protectedStage;
+    $('stageProtect').disabled=controlBusy||stageMenuRun===protectedStage||member.mesh_preview_only===true||member.workflow_protected===true;
     const deletion=stageDeletionState(stageMenuRun);$('stageDelete').disabled=!deletion.allowed;$('stageContextNote').textContent=deletion.note;
     window.showcaseLockControls();
   }
@@ -1122,7 +1188,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     event.preventDefault();const items=Array.from($('stageContextMenu').querySelectorAll('button[role=option]:not(:disabled)')),current=items.indexOf(document.activeElement),next=(current+(event.key==='ArrowDown'?1:-1)+items.length)%items.length;items[next]?.focus();
   }});
   window.addEventListener('scroll',()=>closeStageMenu(),{passive:true});window.addEventListener('resize',()=>closeStageMenu(),{passive:true});
-  function stageRestartAvailable(member){return member?.restart_available===true||member?.snapshot_export?.restart_available===true;}
+  function stageRestartAvailable(member){return member?.workflow_status!=='failed'&&(member?.restart_available===true||member?.snapshot_export?.restart_available===true);}
   function openBranchSettings(member,action='branch'){
     return; // Read-only static export: no calculation or provenance mutations.
     if(controlBusy||!stageRestartAvailable(member))return;
@@ -1228,13 +1294,24 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     const tip=$('timelineTooltip');tip.replaceChildren();
     const add=(text,heading=false)=>{const p=document.createElement('p');if(heading)p.className='timeline-tip-heading';setCaseText(p,text);tip.append(p);};
     const date=new Date(member.started_utc),stamp=Number.isNaN(date.getTime())?'未记录':date.toLocaleString('zh-CN',{timeZone:'Asia/Shanghai',hour12:false});
+    if(member.mesh_preview_only){
+      add(`第 ${index+1} 版 · ${member.label||member.operation||'网格修订'}`,true);add(`导入时间：${stamp}`);
+      const status={static_qa_passed:'静态检查通过',static_qa_failed:'静态检查未通过',not_recorded:'静态检查记录待核对'};
+      add(`状态：${status[member.mesh_quality_status]||member.mesh_quality_status}`);add('仅网格 · 未求解');
+      if(member.preview_title)add(member.preview_title);if(member.parent_run)add(`${['mesh_deformation','mesh_refinement'].includes(member.ancestry_kind)?'网格处理来源':'前一网格版本'}：${member.parent_run}`);
+      if(member.workflow_status==='failed')add(`流程失败：${member.workflow_failure_reason||'准备检查失败'}`);
+      if(member.mesh_sha256)add(`网格 SHA256：${member.mesh_sha256}`);add(`网格记录：${member.run}`);
+      setSurfaceVisible(tip,true);positionFloatingTooltip(tip,event,{anchorRect:button.getBoundingClientRect()});return;
+    }
     add(`第 ${index+1} 段 · ${member.operation||'操作未记录'}`,true);add(`开始时间：${stamp}`);
     const settings=member.settings||{},changes=Array.isArray(member.settings_changes)?member.settings_changes:[];
     add(`计算格式：${timelineValue('first_order_flow',settings.first_order_flow)} · CFL ${timelineValue('max_cfl',settings.max_cfl)} · 原生停止${timelineValue('native_auto_stop',settings.native_auto_stop)}`);
-    if(changes.length){add('数值设置变化：');for(const change of changes)add(`${change.label||change.key}：${timelineValue(change.key,change.from)} → ${timelineValue(change.key,change.to)}`);}else add('数值设置沿用');
+    if(changes.length){add('设置变化：');for(const change of changes)add(`${change.label||change.key}：${timelineValue(change.key,change.from)} → ${timelineValue(change.key,change.to)}`);}else if(member.ancestry_kind!=='mesh_input')add('设置沿用');
     if(isStageProtected(member.run))add('重要结果 · 受保护');
     if(hiddenStages.has(member.run))add('本阶段绘图已隐藏，可在右键菜单恢复');
-    if(member.parent_run)add(`续算来源：${member.parent_run}`);
+    if(member.parent_run)add(`${member.ancestry_kind==='mesh_input'?'输入网格':'续算来源'}：${member.parent_run}`);
+    if(member.ancestry_kind==='mesh_input'&&member.initialization_source?.source_run)add(`实际初始化来源：${member.initialization_source.source_run}`);
+    if(member.workflow_status==='failed')add(`流程失败：${member.workflow_failure_reason||'准备检查失败'}；原数值判定保留`);
     if(member.runtime_change)add(`通用时间上限：${finite(member.runtime_change.from)?duration(member.runtime_change.from):'未记录'} → ${finite(member.runtime_change.to)?duration(member.runtime_change.to):'未记录'}`);
     else if(finite(settings.runtime_limit_seconds))add(`通用时间上限：${duration(settings.runtime_limit_seconds)}`);
     const labels={running:'计算中',paused:'已暂停',finished:'已结束',interrupted:'已停止',timeout:'超时结束',numerical_divergence:'数值发散',starting:'启动中',ongoing_unknown:'状态待核对'};
@@ -1245,8 +1322,9 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
     const members=Array.isArray(d.task_timeline)?d.task_timeline:[],path=timelineAncestry(members,d.run),pathRuns=new Set(path.map(member=>member.run)),displayPath=timelineDisplayPath(members,d.run,d.task_id||path[0]?.run||d.run,path),visibleMembers=timelineTreeExpanded?members:displayPath,key=JSON.stringify([members,Array.from(hiddenStages),timelineTreeExpanded,d.run,timelineDisplayState.anchorRun,d.control?.protected_runs]);
     $('calculationTimeline').hidden=!members.length;$('calculationTimeline').dataset.tree=String(timelineTreeExpanded);$('calculationTimeline').dataset.mode=timelineTreeExpanded?'tree':'dock';
     $('calculationTimeline').dataset.displayEndpoint=timelineDisplayState.anchorRun||'';
-    const branchLabel=timelineTreeExpanded?'收起计算分支':'展开计算分支';$('timelineBranchToggle').setAttribute('aria-label',branchLabel);$('timelineBranchToggle').title=branchLabel;$('timelineBranchToggle').setAttribute('aria-expanded',String(timelineTreeExpanded));
-    $('timelineSummary').textContent=`${members.length} 个家族节点 · 当前来时路径 ${path.length} 段 · 右键隐藏或恢复显示`;
+    const workflow=members.some(member=>member.mesh_preview_only)&&members.some(member=>!member.mesh_preview_only);
+    const branchLabel=workflow?(timelineTreeExpanded?'收起流程历程':'展开流程历程'):d.mesh_preview_only?(timelineTreeExpanded?'收起网格修订':'展开网格修订'):(timelineTreeExpanded?'收起计算分支':'展开计算分支');$('timelineBranchToggle').setAttribute('aria-label',branchLabel);$('timelineBranchToggle').title=branchLabel;$('timelineBranchToggle').setAttribute('aria-expanded',String(timelineTreeExpanded));
+    $('timelineSummary').textContent=workflow?`${members.length} 个流程节点 · 网格生成 → CFD · 原始来源独立保留`:d.mesh_preview_only?`${members.length} 个网格版本 · 当前路径 ${path.length} 版 · 保留原始网格与检查记录`:`${members.length} 个家族节点 · 当前来时路径 ${path.length} 段 · 右键隐藏或恢复显示`;
     if(key!==timelineKey){
       stopTimelineExpansion();
       hideTimelineTooltip();resetDockMagnification(true);$('timelineNodes').replaceChildren();let container=$('timelineNodes');
@@ -1258,6 +1336,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
         const icon=node('svg',{class:'timeline-node-icon',viewBox:'0 0 24 24','aria-hidden':'true',focusable:'false'});
         if(member.operation==='直接续算'||member.operation==='改设置续算')icon.classList.add('timeline-node-icon-small');
         if(hiddenStages.has(member.run))icon.append(node('path',{d:'M3 3l18 18M10 5c5-1 8 3 11 7-1 2-2 3-4 4M7 7c-2 1-4 3-6 5 3 4 6 7 11 7 2 0 3-.3 4-1M10 10a3 3 0 0 0 4 4'}));
+        else if(member.mesh_preview_only)icon.append(node('path',{d:'M3 3h18v18H3ZM3 9h18M3 15h18M9 3v18M15 3v18'}));
         else if(member.operation==='改设置续算'){icon.append(node('path',{d:'M6 4v5m0 4v7M12 4v9m0 4v3M18 4v2m0 4v10'}),node('circle',{cx:6,cy:11,r:2}),node('circle',{cx:12,cy:15,r:2}),node('circle',{cx:18,cy:8,r:2}));}
         else if(member.operation==='直接续算')icon.append(node('path',{d:'M4 5l8 7-8 7M12 5l8 7-8 7'}));
         else if(/重算|重新计算|重跑/.test(member.operation||''))icon.append(node('path',{d:'M7 4 3 8l4 4M3 8h10a6 6 0 1 1-6 7'}));
@@ -1265,7 +1344,7 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
         button.append(icon);button.setAttribute('aria-describedby','timelineTooltip');button.setAttribute('aria-label',`第 ${index+1} 段，${member.operation||'操作未记录'}${hiddenStages.has(member.run)?'，绘图已隐藏':''}，${member.run}`);button.setAttribute('aria-haspopup','menu');
         button.addEventListener('contextmenu',event=>{event.preventDefault();openStageMenu(member,index,event,button);});
         button.addEventListener('keydown',event=>{if((event.shiftKey&&event.key==='F10')||event.key==='ContextMenu'){event.preventDefault();openStageMenu(member,index,null,button);}});
-        button.addEventListener('mouseenter',event=>showTimelineTooltip(button,member,index,event));button.addEventListener('pointermove',event=>{if(!$('timelineTooltip').hidden)positionFloatingTooltip($('timelineTooltip'),event);});button.addEventListener('mouseleave',hideTimelineTooltip);button.addEventListener('focus',()=>showTimelineTooltip(button,member,index));button.addEventListener('blur',hideTimelineTooltip);button.addEventListener('click',()=>selectTask(member.current?null:member.run));
+        button.addEventListener('mouseenter',event=>showTimelineTooltip(button,member,index,event));button.addEventListener('pointermove',event=>{if(!$('timelineTooltip').hidden)positionFloatingTooltip($('timelineTooltip'),event);});button.addEventListener('mouseleave',hideTimelineTooltip);button.addEventListener('focus',()=>showTimelineTooltip(button,member,index));button.addEventListener('blur',hideTimelineTooltip);button.addEventListener('click',()=>{if(!selectionPending)selectTask(member.run);});
         const label=document.createElement('span');label.className='timeline-step-label';label.textContent=member.operation||'计算段';item.append(button,label);container.append(item);
       }
       timelineKey=key;
@@ -1276,11 +1355,14 @@ html[lang=en] .control-message,html[lang=en] .subtitle{line-height:1.5}
   window.addEventListener('scroll',hideTimelineTooltip,{passive:true});window.addEventListener('resize',hideTimelineTooltip,{passive:true});
   $('returnCurrentRun').addEventListener('click',()=>selectTask(null));
   async function poll(){
-    if(busy)return;busy=true;const serial=++pollSerial;progressAbort=new AbortController();
+    if(busy)return;busy=true;const serial=++pollSerial,requestedTask=selectedTask;progressAbort=new AbortController();
     try{
-      const url=selectedTask?`/api/progress?run=${encodeURIComponent(selectedTask)}`:'/api/progress';
+      const url=requestedTask?`/api/progress?run=${encodeURIComponent(requestedTask)}`:'/api/progress';
       const response=await fetch(url,{cache:'no-store',signal:progressAbort.signal});if(!response.ok)throw new Error(`HTTP ${response.status}`);
-      const next=await response.json();if(serial!==pollSerial)return;if(data&&data.run!==next.run)clearFlowGestures();data=next;render();$('connection').textContent='';
+      const next=await response.json();if(serial!==pollSerial||requestedTask!==selectedTask)return;
+      if(requestedTask&&next.run!==requestedTask)throw new Error('Selected record response mismatch');
+      selectionPending=false;$('timelineToggle').disabled=false;$('timelineNodes').inert=timelineCollapsed;
+      if(data&&data.run!==next.run)clearFlowGestures();data=next;render();$('connection').textContent='';
     }catch(e){if(serial!==pollSerial||e.name==='AbortError')return;$('connection').textContent='快照资源读取失败，保留已加载数据；请检查页面资源路径。';$('connection').className='error';}
     finally{if(serial===pollSerial)busy=false;}
   }
